@@ -5,310 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>作業開始</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* 新しいグリッドレイアウトのためのスタイル */
-        .main-grid-container {
-            display: grid;
-            grid-template-columns: 3fr 1fr; /* 左側を作業エリア (3fr)、右側をキュー管理エリア (1fr) に調整 */
-            gap: 30px;
-            width: 98vw;
-            margin-top: 80px;
-            margin-bottom: 20px;
-            margin-left: auto;
-            margin-right: auto;
-            height: calc(100vh - 100px); /* ヘッダーとフッターを考慮した高さ */
-        }
+    <link rel="stylesheet" href="all.min.css"> 
+    <link rel="stylesheet" href="inter-local.css">
+    <link rel="stylesheet" href="start-work.css">
 
-        .work-area {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow-y: auto; /* 作業キューが長くなった場合にスクロール可能にする */
-        }
-
-        .queue-management-area {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .queue-item {
-            background-color: #f0f9ff; /* 淡い青の背景 */
-            border: 1px solid #bfdbfe; /* 薄い青のボーダー */
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.1rem;
-            color: #1e40af; /* 濃い青の文字 */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .queue-item.completed {
-            background-color: #d1fae5; /* 完了したキューの背景色 */
-            border-color: #34d399; /* 完了したキューのボーダー色 */
-            color: #065f46; /* 完了したキューの文字色 */
-            opacity: 0.7;
-        }
-
-        .queue-item-details {
-            flex-grow: 1;
-        }
-
-        .queue-item-actions button {
-            margin-left: 10px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        .queue-item-actions .complete-button {
-            background-color: #10b981; /* 緑 */
-            color: white;
-        }
-        .queue-item-actions .complete-button:hover {
-            background-color: #059669;
-        }
-        .queue-item-actions .delete-button {
-            background-color: #ef4444; /* 赤 */
-            color: white;
-        }
-        .queue-item-actions .delete-button:hover {
-            background-color: #dc2626;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .slider {
-            flex-grow: 1;
-            -webkit-appearance: none;
-            width: 100%;
-            height: 10px;
-            background: #d3d3d3;
-            outline: none;
-            opacity: 0.7;
-            -webkit-transition: .2s;
-            transition: opacity .2s;
-            border-radius: 5px;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #4a90e2;
-            cursor: pointer;
-        }
-
-        .slider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #4a90e2;
-            cursor: pointer;
-        }
-
-        .queue-list {
-            flex-grow: 1;
-            overflow-y: auto;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 10px;
-            background-color: #f8fafc;
-        }
-
-        .add-to-queue-button {
-            background-color: #22c55e; /* 緑 */
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .add-to-queue-button:hover {
-            background-color: #16a34a;
-        }
-
-        .estimated-time {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        /* ホームに戻るボタンのスタイル調整 */
-        .back-button {
-            background: linear-gradient(135deg, #6b7280, #9ca3af); /* 灰色系のグラデーション */
-            padding: 10px 20px; /* パディングをさらに小さくする */
-            font-size: 1.2rem; /* フォントサイズを調整 */
-            max-width: 250px; /* 最大幅を設定して、ボタンが横に広がりすぎないようにする */
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: auto; /* 下部に配置するために自動マージンを使用 */
-            height: auto; /* 高さを内容に合わせる */
-            display: flex; /* flexboxを適用 */
-            align-items: center; /* 垂直方向中央揃え */
-            justify-content: center; /* 水平方向中央揃え */
-            gap: 10px; /* テキストとアイコンの間のスペース */
-        }
-
-        .back-button:hover {
-            background: linear-gradient(135deg, #4b5563, #6b7280);
-        }
-
-        /* 既存のstyle.cssからの背景アイコン設定をオーバーライド */
-        .interactive-button::before {
-            /* interactive-button::before のデフォルト設定をリセットまたは調整 */
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            font-size: 250px; /* 既存の大きなサイズを維持しつつ、back-buttonで上書き */
-            color: rgba(255, 255, 255, 0.1);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(0deg);
-            z-index: -1;
-        }
-
-        .back-button::before {
-            content: "\f0e2"; /* 楯のアイコン */
-            font-size: 30px; /* 楯のアイコンサイズをさらに小さく調整 */
-            position: static; /* 相対位置に戻してflexアイテムとして扱う */
-            transform: none; /* transformをリセット */
-            margin-right: 5px; /* テキストとの間に少しスペースを追加 */
-            color: rgba(255, 255, 255, 0.8); /* アイコンの色を少し濃くする */
-        }
-
-        /* カスタムモーダル用のスタイル */
-        .custom-modal {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.75);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .custom-modal-content {
-            background-color: white;
-            padding: 32px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-
-        .custom-modal-message {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 24px;
-        }
-
-        .custom-modal-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-        }
-
-        .custom-modal-button {
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        .custom-modal-ok {
-            background-color: #2563eb; /* Blue-600 */
-            color: white;
-        }
-
-        .custom-modal-ok:hover {
-            background-color: #1d4ed8; /* Blue-700 */
-        }
-
-        .custom-modal-cancel {
-            background-color: #6b7280; /* Gray-500 */
-            color: white;
-        }
-
-        .custom-modal-cancel:hover {
-            background-color: #4b5563; /* Gray-600 */
-        }
-    </style>
 </head>
 <body>
-    <div class="header-band">
-        <div class="date-time-display">作業開始</div>
-    </div>
 
-    <div class="main-grid-container">
-        <!-- 左側の作業キュー表示エリア -->
-        <div class="work-area">
-            <h1 class="text-3xl font-bold text-gray-800 text-center mb-4">現在の作業キュー</h1>
-            <div id="work-queue-list" class="queue-list">
-                <!-- 作業キューアイテムがここに追加されます -->
-            </div>
-            <div class="estimated-time">
-                予想残り時間: <span id="remaining-time">00:00:00</span>
-            </div>
-            <button id="back-to-home-button" class="interactive-button back-button mt-auto">
-                <!-- アイコンを直接ボタン内に配置してflexboxで制御 -->
-                <i class="fas fa-shield-alt"></i> ホームに戻る
-            </button>
-        </div>
-
-        <!-- 右側のキュー追加・設定エリア -->
-        <div class="queue-management-area">
+    <div class="grid-container">
+        
+        <div class="grid-item queue-management-container">
             <h1 class="text-3xl font-bold text-gray-800 text-center mb-4">新しい作業を追加</h1>
 
             <div class="input-group">
@@ -333,9 +39,24 @@
                 <i class="fas fa-plus-circle mr-2"></i> キューに追加
             </button>
         </div>
+
+        <div class="grid-item work-queue-list-container">
+            <h1 class="text-3xl font-bold text-gray-800 text-center mb-4">現在の作業キュー</h1>
+            <div id="work-queue-list" class="queue-list">
+                <p class="text-center text-gray-500">現在、キューに作業はありません。</p>
+            </div>
+            <div class="estimated-time">
+                予想残り時間: <span id="remaining-time">00:00:00</span>
+            </div>
+        </div>
+
+        <div class="back-to-home-button-container">
+            <button id="back-to-home-button" class="interactive-button back-button">
+                <i class="fas fa-shield-alt"></i> ホームに戻る
+            </button>
+        </div>
     </div>
 
-    <!-- カスタムモーダル -->
     <div id="custom-modal" class="custom-modal hidden">
         <div class="custom-modal-content">
             <p id="modal-message" class="custom-modal-message"></p>
@@ -521,6 +242,17 @@
             function updateTotalEstimatedTime() {
                 totalEstimatedTime = workQueue.reduce((sum, item) => sum + (item.completed ? 0 : item.remainingTime), 0);
                 remainingTimeDisplay.textContent = formatTime(totalEstimatedTime);
+
+                // index.htmlの残り時間表示も更新
+                const currentTaskTimeElement = document.getElementById('current-task-time');
+                if (currentTaskTimeElement) {
+                    const firstUncompletedTask = workQueue.find(item => !item.completed);
+                    if (firstUncompletedTask) {
+                        currentTaskTimeElement.textContent = formatTime(firstUncompletedTask.remainingTime);
+                    } else {
+                        currentTaskTimeElement.textContent = '--:--:--';
+                    }
+                }
             }
 
             // タイマーを開始する関数
