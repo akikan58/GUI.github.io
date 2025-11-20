@@ -11,11 +11,15 @@
 
 </head>
 <body>
-
+    
+    <div class="header-band">
+        <div class="date-time-display">作業開始</div>
+    </div>
+    
     <div class="grid-container">
         
         <div class="grid-item queue-management-container">
-            <h1 class="text-3xl font-bold text-gray-800 text-center mb-4">新しい作業を追加</h1>
+            <h1>新しい作業を追加</h1>
 
             <div class="input-group">
                 <label for="task-name" class="input-label">タスク名:</label>
@@ -41,9 +45,9 @@
         </div>
 
         <div class="grid-item work-queue-list-container">
-            <h1 class="text-3xl font-bold text-gray-800 text-center mb-4">現在の作業キュー</h1>
+            <h1>現在の作業キュー</h1>
             <div id="work-queue-list" class="queue-list">
-                <p class="text-center text-gray-500">現在、キューに作業はありません。</p>
+                <p>現在、キューに作業はありません。</p>
             </div>
             <div class="estimated-time">
                 予想残り時間: <span id="remaining-time">00:00:00</span>
@@ -66,7 +70,7 @@
             </div>
         </div>
     </div>
-
+    
     <script>
         // カスタムアラート/確認ダイアログの表示関数
         function showCustomModal(message, type = 'alert') {
@@ -162,13 +166,14 @@
             function renderQueue() {
                 workQueueList.innerHTML = ''; // 一度クリア
                 if (workQueue.length === 0) {
-                    workQueueList.innerHTML = '<p class="text-center text-gray-500">現在、キューに作業はありません。</p>';
+                    workQueueList.innerHTML = '<p>現在、キューに作業はありません。</p>';
                     return;
                 }
 
                 workQueue.forEach(item => {
                     const queueItemDiv = document.createElement('div');
-                    queueItemDiv.classList.add('queue-item', 'rounded-lg', 'p-4', 'mb-2', 'flex', 'items-center', 'justify-between');
+                    // スタイルクラスはstart-work.cssで定義されたものを適用
+                    queueItemDiv.classList.add('queue-item'); 
                     if (item.completed) {
                         queueItemDiv.classList.add('completed');
                     }
@@ -176,10 +181,10 @@
                     const detailsDiv = document.createElement('div');
                     detailsDiv.classList.add('queue-item-details');
                     detailsDiv.innerHTML = `
-                        <p class="font-bold text-lg">${item.name} (${item.boxCount}枚)</p>
-                        <p class="text-sm text-gray-600">予想時間: ${formatTime(item.estimatedTime)}</p>
-                        <p class="text-sm text-gray-600">残り時間: <span id="item-remaining-time-${item.id}">${formatTime(item.remainingTime)}</span></p>
-                        ${item.notify ? '<p class="text-xs text-gray-500"><i class="fas fa-bell"></i> 通知あり</p>' : ''}
+                        <p class="font-bold">${item.name} (${item.boxCount}枚)</p>
+                        <p class="text-sm">予想時間: ${formatTime(item.estimatedTime)}</p>
+                        <p class="text-sm">残り時間: <span id="item-remaining-time-${item.id}">${formatTime(item.remainingTime)}</span></p>
+                        ${item.notify ? '<p class="text-xs"><i class="fas fa-bell"></i> 通知あり</p>' : ''}
                     `;
                     queueItemDiv.appendChild(detailsDiv);
 
@@ -243,7 +248,7 @@
                 totalEstimatedTime = workQueue.reduce((sum, item) => sum + (item.completed ? 0 : item.remainingTime), 0);
                 remainingTimeDisplay.textContent = formatTime(totalEstimatedTime);
 
-                // index.htmlの残り時間表示も更新
+                // index.htmlの残り時間表示も更新 (この画面では不要だが、互換性のために残す)
                 const currentTaskTimeElement = document.getElementById('current-task-time');
                 if (currentTaskTimeElement) {
                     const firstUncompletedTask = workQueue.find(item => !item.completed);
@@ -257,7 +262,7 @@
 
             // タイマーを開始する関数
             function startTimer() {
-                if (timerInterval) return; // 既にタイマーが実行中の場合は何もしない
+                if (timerInterval) return;
 
                 timerInterval = setInterval(() => {
                     let activeTaskFound = false;
@@ -266,9 +271,8 @@
                             workQueue[i].remainingTime--;
                             if (workQueue[i].remainingTime <= 0) {
                                 workQueue[i].remainingTime = 0;
-                                workQueue[i].completed = true; // 時間が0になったら完了
+                                workQueue[i].completed = true;
                                 if (workQueue[i].notify) {
-                                    // 実際の通知処理
                                     if (typeof electronAPI !== 'undefined' && electronAPI.onShowAlert) {
                                         electronAPI.onShowAlert(null, `${workQueue[i].name} が時間になりました！`);
                                     } else {
@@ -277,18 +281,18 @@
                                 }
                             }
                             activeTaskFound = true;
-                            break; // 最も古い未完了タスクのみ時間を減らす
+                            break;
                         }
                     }
 
-                    renderQueue(); // キューの表示を更新
-                    updateTotalEstimatedTime(); // 全体の残り時間を更新
+                    renderQueue();
+                    updateTotalEstimatedTime();
 
                     if (!activeTaskFound && workQueue.every(item => item.completed)) {
-                        stopTimer(); // 全てのタスクが完了したらタイマーを停止
+                        stopTimer();
                         showCustomModal('全ての作業が完了しました！', 'alert');
                     }
-                }, 1000); // 1秒ごとに更新
+                }, 1000);
             }
 
             // タイマーを停止する関数
@@ -311,7 +315,7 @@
             // ホームに戻るボタンのクリックイベント
             backToHomeButton.addEventListener('click', () => {
                 if (typeof electronAPI !== 'undefined' && electronAPI.navigateTo) {
-                    electronAPI.navigateTo('index'); // 'index' を指定して最初の画面に戻る
+                    electronAPI.navigateTo('index');
                 }else{
                     location.href = 'index.html';
                 }
