@@ -2,7 +2,8 @@ body {
     font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    /* 変更点: ブラウザUIの影響を軽減するため、min-heightを100dvhに変更 */
+    min-height: 100dvh;
     background: linear-gradient(135deg, #e0f2f7, #c6e2e9);
     margin: 0;
     padding: 20px;
@@ -33,14 +34,14 @@ body {
 .grid-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    /* 変更点: 3行目と4行目の比率を 0.5fr に縮小 */
+    /* 制御ボタンの高さは 0.5fr に縮小を維持 */
     grid-template-rows: 250px 1fr 0.5fr 0.5fr; 
     gap: 20px; 
     width: 100%; 
     margin: 0; 
-    /* bodyのpadding 40px分を引いた画面いっぱいの高さ */
-    min-height: calc(100vh - 40px);
-    height: calc(100vh - 40px);
+    /* 変更点: dvh を使用してブラウザUIの影響を軽減 */
+    min-height: calc(100dvh - 40px); 
+    height: calc(100dvh - 40px);
 }
 
 /* 各グリッドアイテムの配置 (デフォルト/縦向き) */
@@ -83,7 +84,7 @@ body {
     grid-row: 2 / 3;
 }
 
-/* 制御ボタンを2行に分けて配置 (位置は前回の修正を維持) */
+/* 制御ボタンを2行に分けて配置 (位置は前回修正を維持) */
 /* ログインに戻る (2, 4) */
 .power-button { 
     grid-column: 2 / 3;
@@ -112,13 +113,14 @@ body {
 @media screen and (min-width: 768px) and (orientation: landscape) {
     .grid-container {
         grid-template-columns: repeat(4, 1fr); 
-        /* 変更点: 2行目の比率を 0.5fr に縮小 */
+        /* 変更点: 2行目の比率を 0.5fr に縮小を維持 */
         grid-template-rows: 250px 0.5fr;
         gap: 30px; 
         width: 100%; 
         margin: 0; 
-        height: calc(100vh - 40px);
-        min-height: calc(100vh - 40px);
+        /* 変更点: dvh を使用してブラウザUIの影響を軽減 */
+        height: calc(100dvh - 40px);
+        min-height: calc(100dvh - 40px);
     }
     
     .grid-item {
@@ -187,7 +189,12 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* ... (中略) ... */
+.date-time-display {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: white;
+    padding-right: 10px;
+}
 
 /* ボタンの基本スタイル: 縦幅縮小に合わせてフォントとパディングを調整 */
 .interactive-button {
@@ -218,11 +225,9 @@ body {
     transition: transform 0.3s ease;
     z-index: 2;
 }
-/* ... (後略) ... */
-/* ... (ボタンのhover, active, before, animationのスタイルは省略、大きな変更なし) ... */
-/* 掲示板・メモ帳のスタイル */
+
 .board-title {
-    font-size: 2rem; /* サイズを調整 */
+    font-size: 2rem; 
     font-weight: bold;
     color: #333;
     margin-bottom: 2px;
@@ -239,19 +244,19 @@ body {
 #memoinpt {
     flex-grow: 1;
     min-height: 40px; 
-    max-height: 120px; /* 高さを調整 */
+    max-height: 120px; 
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     resize: none; 
-    font-size: 18px; /* フォントサイズを調整 */
+    font-size: 18px; 
     width: 100%;
 }
 
 .post-button {
     padding: 8px 12px;
     border-radius: 8px;
-    font-size: 1.2rem; /* フォントサイズを調整 */
+    font-size: 1.2rem; 
     flex-shrink: 0; 
     height: 100%;
 }
@@ -262,7 +267,7 @@ body {
     height: 0; 
     display: flex;
     flex-direction: column;
-    gap: 10px; /* ギャップを調整 */
+    gap: 10px; 
     padding-right: 5px;
     min-width: 100%;
 }
@@ -273,15 +278,13 @@ body {
 }
 
 .memo-item p {
-    font-size: 18px; /* フォントサイズを調整 */
+    font-size: 18px; 
 }
 
 .memo-content {
-    font-size: 1.2rem; /* フォントサイズを調整 */
+    font-size: 1.2rem; 
 }
-/* ... (掲示板のスクロールバー、ステータス表示エリアの詳細スタイルは変更なし) ... */
 
-/* ステータス表示エリアのフォントサイズ調整 */
 .status-title {
     font-size: 2rem;
     margin-bottom: 15px;
