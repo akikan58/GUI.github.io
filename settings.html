@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>設定</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header-band">
+        <div class="date-time-display">設定</div>
+    </div>
+
+    <div class="grid-container">
+        <div class="grid-item full-width-content">
+            <h1 class="text-3xl text-white text-center">アプリケーションの各種設定を行います。</h1>
+            <p class="text-xl text-white text-center mt-4">例: 言語設定、表示設定、ネットワーク設定など</p>
+        </div>
+
+        <button class="grid-item interactive-button">言語設定</button>
+        <button class="grid-item interactive-button">テーマ変更</button>
+        <button class="grid-item interactive-button">通知設定</button>
+
+        <button id="back-to-home-button" class="grid-item interactive-button back-button">
+            ホームに戻る
+        </button>
+    </div>
+
+    <script>
+        // メインプロセスからのメッセージを受信してアラート表示
+        if (typeof electronAPI !== 'undefined' && electronAPI.onShowAlert) {
+            electronAPI.onShowAlert((event, message) => {
+                alert(message);
+            });
+        }
+
+        document.getElementById('back-to-home-button').addEventListener('click', () => {
+            if (typeof electronAPI !== 'undefined' && electronAPI.navigateTo) {
+                electronAPI.navigateTo('index'); // 'index' を指定して最初の画面に戻る
+            }else {
+                location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>

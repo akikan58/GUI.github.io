@@ -1,0 +1,424 @@
+/* InterフォントをGoogle Fontsからインポート */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    /* ... (省略) */
+    src: url('./webfonts/fonts.woff2') format('woff2');
+}
+body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* 背景色をグラデーションに変更 */
+    background: linear-gradient(135deg, #e0f2f7, #c6e2e9); /* 落ち着いた青系のグラデーション */
+    margin: 0;
+    padding: 0px;
+    box-sizing: border-box;
+    position: relative; /* ヘッダーバンドの絶対配置の基準 */
+}
+
+/* 新しいヘッダーバンドのスタイル - シンプルなデザイン */
+.header-band {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* バンドの高さ - 少し低く */
+    background-color: #333; /* シンプルな濃い灰色 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 影を控えめに */
+    display: flex;
+    justify-content: flex-end; /* 右寄せ */
+    align-items: center; /* 垂直中央揃え */
+    padding: 0 20px; /* 左右のパディングを調整 */
+    z-index: 10;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4列に調整 */
+    grid-template-rows: 510px 305px; /* 上段と下段の高さを大幅に調整してボタンを長くする */
+    gap: 30px; /* グリッド間の隙間を調整 */
+    width: 98vw; /* 幅をビューポートの98%にして、わずかな余白を残す */
+    margin-top: 80px; /* ヘッダーバンドの高さに合わせて調整 (60px + マージン) */
+    margin-bottom: 20px;
+    /* 中央寄せにするための変更 */
+    margin-left: auto; /* 左マージンを自動調整 */
+    margin-right: auto; /* 右マージンを自動調整 */
+}
+
+.grid-item {
+    background-color: white;
+    border: 2px solid #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* 各グリッドアイテムの配置 */
+.weather-display {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 30px;
+    overflow: hidden;
+}
+
+.empty-space {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.start-work-button {
+    grid-column: 3 / 5;
+    grid-row: 1 / 2;
+}
+
+.power-button {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    
+}
+/* aaa*/
+.admin-menu-button {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+.setting-button {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+}
+
+.work-history-button {
+    grid-column: 4 / 5;
+    grid-row: 2 / 3;
+}
+
+/* ホバーとアクティブ時の共通スタイル */
+.grid-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.grid-item:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 天気表示のスタイル */
+.weather-info, .temperature-info {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    color: #333;
+    word-break: break-all;
+    line-height: 1.2;
+    text-wrap: balance;
+}
+.temperature-info {
+    font-size: 3.2rem;
+    color: #555;
+    margin-top: 15px;
+}
+
+.date-time-display {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: white;
+    padding-right: 10px;
+}
+
+/* ボタンの基本スタイル（変更なし） */
+.interactive-button {
+    background: linear-gradient(135deg, #4a90e2, #7aaee6);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px 60px;
+    font-size: 36px;
+    font-weight: 600;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 150px;
+    max-width: 100%;
+    z-index: 1;
+    height: 100%;
+}
+
+.interactive-button i {
+    font-size: 40px;
+    transition: transform 0.3s ease;
+}
+
+.interactive-button:hover {
+    background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.interactive-button:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.interactive-button:hover i {
+    transform: rotate(30deg);
+}
+
+/* 各ボタンの背景アイコン（変更なし） */
+.interactive-button::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    font-size: 250px;
+    color: rgba(255, 255, 255, 0.1);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    z-index: -1;
+}
+
+.power-button::before {
+    content: "\f011";
+    animation: none;
+}
+
+.admin-menu-button::before {
+    content: "\f007";
+    animation: spin 15s linear infinite;
+}
+
+.setting-button::before {
+    content: "\f013";
+    animation: spin 15s linear infinite;
+}
+
+.work-history-button::before {
+    content: "\f03a";
+    animation: spin 15s linear infinite;
+}
+
+.start-work-button::before {
+    content: "\f04b";
+    animation: spin 15s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* work-history.html 用の追加スタイル */
+.table-history {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.25rem; /* 20px */
+}
+
+.table-history th,
+.table-history td {
+    text-align: left;
+    padding: 1rem; /* 16px */
+    border-bottom: 2px solid #e5e7eb; /* gray-200 */
+}
+
+.table-history th {
+    background-color: #f3f4f6; /* gray-100 */
+    color: #4b5563; /* gray-600 */
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    transition: background-color 0.2s ease;
+}
+
+.table-history th:hover {
+    background-color: #e5e7eb; /* gray-200 */
+}
+
+.table-history .sort-icon {
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    color: #9ca3af; /* gray-400 */
+}
+
+.table-history .sort-icon.sorted-asc {
+    color: #10b981; /* emerald-500 */
+}
+
+.table-history .sort-icon.sorted-desc {
+    color: #ef4444; /* red-500 */
+}
+
+.table-history tbody tr:nth-child(even) {
+    background-color: #f9fafb; /* gray-50 */
+}
+
+.table-history tbody tr:hover {
+    background-color: #f3f4f6; /* gray-100 */
+}
+
+.interactive-button.back-button {
+    background: linear-gradient(135deg, #10b981, #34d399); /* エメラルド色のグラデーション */
+    color: white;
+    padding: 16px 32px;
+    font-size: 1.75rem;
+    font-weight: bold;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.interactive-button.back-button:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.interactive-button.back-button:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.interactive-button.back-button i {
+    margin-right: 12px;
+    font-size: 2rem;
+}
+
+table-users {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.25rem;
+}
+
+.table-users th,
+.table-users td {
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.table-users th {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    font-weight: 700;
+}
+
+.table-users tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.table-users tbody tr:hover {
+    background-color: #e5e7eb;
+}
+
+.action-button {
+    background: linear-gradient(135deg, #2196F3, #0d47a1);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.action-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action-button.add-button {
+    background: linear-gradient(135deg, #10b981, #0d9488);
+}
+
+.action-button.add-button:hover {
+    background: linear-gradient(135deg, #0d9488, #057a66);
+}
+
+.action-button.edit-button {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.action-button.edit-button:hover {
+    background: linear-gradient(135deg, #d97706, #b45309);
+}
+
+.action-button.delete-button {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+
+.action-button.delete-button:hover {
+    background: linear-gradient(135deg, #b91c1c, #991b1b);
+}
+
+.fas, .far, .fab {
+    /* Font Awesomeのフォントファミリーを強制的に適用 */
+    font-family: 'Font Awesome 5 Free' !important; 
+    /* Font Awesomeのフォントウェイトを強制的に適用 */
+    font-weight: 900 !important; 
+}
+/* ========================================================= */
+/* Font Awesomeアイコンが表示されない場合の強制適用ルール (style.cssの末尾に追加) */
+/* ========================================================= */
+/* アイコンフォントの適用を強制することで、他のCSSによる上書きを防ぎます */
+.fas, .far, .fab {
+    /* Font Awesomeのフォントファミリーを強制的に適用 */
+    font-family: 'Font Awesome 5 Free' !important; 
+    /* Solidアイコン（fas）はウェイト900が必須 */
+    font-weight: 900 !important; 
+}
+.far {
+    /* Regularアイコン（far）はウェイト400が必須 */
+    font-weight: 400 !important; 
+}
+.fab {
+    /* Brandsアイコン（fab）はウェイト400が必須（ブランドによって異なる場合もあるが、これで動作するはず） */
+    font-weight: 400 !important;
+}
+
+/* i要素全体に対して、念のためFont Awesomeのスタイルを継承させる */
+i.fas, i.far, i.fab {
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}

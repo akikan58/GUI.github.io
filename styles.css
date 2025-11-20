@@ -1,0 +1,252 @@
+/* login.html 専用スタイル */
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    /* ... (省略) */
+    src: url('./fonts/fonts.woff2') format('woff2');
+}
+body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* 背景色をグラデーションに変更 */
+    background: linear-gradient(135deg, #e0f2f7, #c6e2e9); /* 落ち着いた青系のグラデーション */
+    margin: 0;
+    padding: 0px;
+    box-sizing: border-box;
+    position: relative; /* ヘッダーバンドの絶対配置の基準 */
+}
+
+/* ログインコンテナ */
+.login-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    max-width: 800px; /* ログインフォームの最大幅を広げる */
+    width: 90%;
+    text-align: center;
+    /* position: relative; は不要になりますが、他の要素に影響がないため残しておいても問題ありません */
+}
+
+/* 入力グループ */
+.input-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.input-field {
+    width: calc(100% - 20px); /* Paddingを考慮 */
+    padding: 15px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.5rem; /* 入力文字を大きく */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+/* 仮想キーボード */
+.virtual-keyboard {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    gap: 10px; /* ボタン間のスペースを均等に設定 */
+}
+
+.key {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px 10px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex-grow: 1;
+    min-width: 60px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.key:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.key:active {
+    background-color: #d0d0d0;
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.key.space {
+    flex-grow: 5;
+}
+
+.key.enter {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.key.enter:hover {
+    background-color: #45a049;
+}
+
+.key.backspace, .key.clear {
+    background-color: #f44336; /* 赤系 */
+    color: white;
+}
+
+.key.backspace:hover, .key.clear:hover {
+    background-color: #da190b;
+}
+
+.key.shift {
+    background-color: #2196F3; /* 青系 */
+    color: white;
+}
+
+.key.shift:hover {
+    background-color: #0b7dda;
+}
+
+.key.shift.active {
+    background-color: #0d47a1; /* アクティブ時の濃い青 */
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* カスタムアラートモーダル */
+#custom-alert-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#custom-alert-modal.hidden {
+    display: none;
+}
+
+#custom-alert-modal > div {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+}
+
+#custom-alert-message {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* OK/キャンセルボタンのスタイル */
+#custom-alert-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* ボタン間のスペースを調整 */
+}
+
+#custom-alert-ok-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#custom-alert-ok-button:hover {
+    background-color: #45a049;
+}
+
+#custom-alert-cancel-button {
+    background-color: #6c757d; /* グレー */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#custom-alert-cancel-button:hover {
+    background-color: #5a6268;
+}
+
+
+/* 電源ボタンのスタイル */
+.power-off-button {
+    position: fixed; /* ビューポートを基準に固定 */
+    bottom: 40px; /* 下からの位置 */
+    right: 40px; /* 右からの位置 */
+    background-color: #f44336; /* 赤色 */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 999; /* 他の要素の上に表示されるようにする */
+}
+
+.power-off-button:hover {
+    background-color: #d32f2f; /* ホバーで少し濃い赤に */
+    transform: translateY(-2px);
+}
+
+.power-off-button:active {
+    background-color: #c62828; /* クリックでさらに濃い赤に */
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.power-off-button i {
+    font-size: 1.8rem;
+}

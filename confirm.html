@@ -1,0 +1,43 @@
+<!-- confirm.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>確認</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8f8f8;
+    }
+    .dialog {
+      text-align: center;
+    }
+    button {
+      margin: 10px;
+      padding: 8px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dialog">
+    <p>電源を切りますか？</p>
+    <button id="yes">はい</button>
+    <button id="no">いいえ</button>
+  </div>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    document.getElementById('yes').addEventListener('click', () => {
+      ipcRenderer.send('power-confirm', true);
+    });
+
+    document.getElementById('no').addEventListener('click', () => {
+      ipcRenderer.send('power-confirm', false);
+    });
+  </script>
+</body>
+</html>
