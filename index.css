@@ -1,8 +1,3 @@
-/* InterフォントをGoogle Fontsからインポート */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-/* 以下のキーボード関連のスタイルはstyles.css（login.htmlで読み込んでいる共通ファイル）に統合するため削除 */
-/* .keyboard-row, .key, .key:hover, .key:active, .key.space, .key.enter, .key.enter:hover, .key.backspace, .key.clear, .key.backspace:hover, .key.clear:hover, .key.shift, .key.shift:hover, .key.shift.active の全てを削除します。 */
 
 body {
     font-family: 'Inter', sans-serif;
@@ -111,14 +106,15 @@ body {
 /* --- タブレット横向き (min-width: 768px, orientation: landscape) 向けの調整 --- */
 @media screen and (min-width: 768px) and (orientation: landscape) {
     .grid-container {
-        /* 横向きでは4列レイアウトに戻す */
-        grid-template-columns: repeat(4, 1fr);
-        /* 1行目 (コンテンツ), 2行目 (ボタン) */
-        grid-template-rows: 3fr 1fr;
-        gap: 30px;
-        /* 高さをビューポートに合わせる */
-        height: calc(100vh - 80px - 20px);
-        min-height: calc(100vh - 80px - 20px);
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        /* 変更点: 掲示板 (2.5fr) の高さを縮小し、他の要素の相対的な高さを確保 */
+        grid-template-rows: 1fr 2fr 1fr 1fr; /* 掲示板: ステータス/開始: ボタン1: ボタン2 の比率 */
+        gap: 20px; 
+        width: 100%; 
+        margin: 0; 
+        min-height: calc(100vh - 40px); 
+        height: calc(100vh - 40px);
     }
     
     .grid-item {
