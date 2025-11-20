@@ -2,12 +2,13 @@ body {
     font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
-    /* 変更点: ブラウザUIの影響を軽減するため、min-heightを100dvhに変更 */
-    min-height: 100dvh;
+    /* 変更点: ブラウザUIの影響を軽減するため、min-heightを100dvhに */
+    min-height: 100dvh; 
     background: linear-gradient(135deg, #e0f2f7, #c6e2e9);
+    /* 修正点: スクロールバーの発生を防ぐため、paddingを0にし、box-sizingをcontent-boxに */
     margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
+    padding: 0px;
+    box-sizing: content-box; 
     position: relative;
     /* タブレットで指での操作性を高めるためにフォントサイズを調整 */
     font-size: 16px; 
@@ -34,13 +35,14 @@ body {
 .grid-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    /* 制御ボタンの高さは 0.5fr に縮小を維持 */
+    /* 制御ボタンの高さは 0.5fr に縮小 */
     grid-template-rows: 250px 1fr 0.5fr 0.5fr; 
     gap: 20px; 
-    width: 100%; 
-    margin: 0; 
-    /* 変更点: dvh を使用してブラウザUIの影響を軽減 */
-    min-height: calc(100dvh - 40px); 
+    /* 修正点: bodyのpaddingを削除したため、widthとheightをマージン分調整 */
+    width: calc(100% - 40px); 
+    margin: 20px; /* bodyのpaddingの代わりにマージンを設定 */
+    /* 変更点: dvh を使用し、マージン40pxを引く */
+    min-height: calc(100dvh - 40px);
     height: calc(100dvh - 40px);
 }
 
@@ -84,7 +86,7 @@ body {
     grid-row: 2 / 3;
 }
 
-/* 制御ボタンを2行に分けて配置 (位置は前回修正を維持) */
+/* 制御ボタンを2行に分けて配置 (位置: 設定と作業履歴を交換済み) */
 /* ログインに戻る (2, 4) */
 .power-button { 
     grid-column: 2 / 3;
@@ -113,12 +115,12 @@ body {
 @media screen and (min-width: 768px) and (orientation: landscape) {
     .grid-container {
         grid-template-columns: repeat(4, 1fr); 
-        /* 変更点: 2行目の比率を 0.5fr に縮小を維持 */
+        /* 変更点: 2行目の比率を 0.5fr に縮小 */
         grid-template-rows: 250px 0.5fr;
         gap: 30px; 
-        width: 100%; 
-        margin: 0; 
-        /* 変更点: dvh を使用してブラウザUIの影響を軽減 */
+        /* 修正点: widthとheightをdvhベースでマージン分調整 */
+        width: calc(100% - 40px); 
+        /* 変更点: dvh を使用し、マージン40pxを引く */
         height: calc(100dvh - 40px);
         min-height: calc(100dvh - 40px);
     }
@@ -182,7 +184,7 @@ body {
 }
 
 
-/* --- ボタン、掲示板などの共通スタイル (サイズ調整) --- */
+/* --- ボタン、掲示板などの共通スタイル (サイズ調整済み) --- */
 
 .grid-item:not(.bulletin-board):not(.empty-space):active {
     transform: translateY(0);
