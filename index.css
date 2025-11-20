@@ -17,19 +17,19 @@ body {
 /* --- デフォルトのレイアウト (主にタブレット縦向き、または小型デバイス向け) --- */
 .grid-container {
     display: grid;
-    /* 縦向きは2列を維持 */
     grid-template-columns: repeat(2, 1fr);
-    /* 変更点: 高さを均等に配分するため、grid-template-rows を変更します */
-    /* 掲示板: ステータス/作業開始: 制御ボタン1: 制御ボタン2 = 3: 2: 1: 1 程度の比率で仮設定 */
-    grid-template-rows: 3.5fr 2fr 1fr 1fr;
+    /* 変更点: 掲示板の高さを固定値 (300px または 30vh) にし、残りを fr で分配 */
+    /* 1. 掲示板 (auto/固定値) */
+    /* 2. ステータス/作業開始 (1fr) */
+    /* 3. 制御ボタン1 (auto) */
+    /* 4. 制御ボタン2 (auto) */
+    /* 掲示板に固定の高さを設定し、他の行は残りのスペースを均等に分ける */
+    grid-template-rows: 30vh 1fr 1fr 1fr; /* 30vhに固定し、残りを均等に */
     gap: 20px; 
-    /* 変更点: width: 98vw; を 100% に変更し、bodyのパディングを利用 */
     width: 100%; 
-    /* 変更点: margin-top/bottom/left/right を全て削除し、bodyのパディングに任せる */
     margin: 0; 
-    /* 変更点: min-height/height を calc(100vh - bodyの上下パディング) に変更 */
-    min-height: calc(100vh - 40px); /* bodyの上下20px*2=40px分を引く */
-    height: calc(100vh - 40px); /* 縦スクロールをなくすために高さを固定 */
+    min-height: calc(100vh - 40px);
+    height: calc(100vh - 40px);
 }
 
 .grid-item {
@@ -52,12 +52,14 @@ body {
 /* 各グリッドアイテムの配置 (デフォルト/縦向き) */
 .bulletin-board {
     grid-column: 1 / 3; 
-    grid-row: 1 / 2; /* 3.5fr の高さ */
+    grid-row: 1 / 2;
     flex-direction: column;
     justify-content: flex-start;
     padding: 20px;
     overflow-y: auto;
     overflow-x: hidden;
+    /* 追加: 掲示板自体の高さを設定し、grid-template-rowsの 30vh と連携させる */
+    height: 30vh; 
 }
 
 .empty-space {
