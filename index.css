@@ -18,21 +18,6 @@ body {
     font-size: 16px; 
 }
 
-/* 新しいヘッダーバンドのスタイル - シンプルなデザイン */
-.header-band {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #333;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 10;
-}
 
 /* --- デフォルトのレイアウト (主にタブレット縦向き、または小型デバイス向け) --- */
 .grid-container {
@@ -43,7 +28,7 @@ body {
     grid-template-rows: auto 1fr auto auto; /* 掲示板, ステータス/作業開始, 制御ボタン1, 制御ボタン2 */
     gap: 20px; /* ギャップを少し縮小 */
     width: 98vw;
-    margin-top: 80px;
+    margin-top: 20px;
     margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
