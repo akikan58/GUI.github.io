@@ -116,7 +116,7 @@ body {
         font-weight: bold;
         padding: 0%;
         color: #333;
-        margin-top: 5px;
+        margin-top: 2px;
         text-align: center;
     }
     .queue-list {
@@ -127,7 +127,7 @@ body {
         border-radius: 8px;
         padding: 10px;
         background-color: #f8fafc;
-        margin-top: 5px;
+        margin-top: 2px;
     }
 }
 
