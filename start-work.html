@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <link rel="stylesheet" href="start-work.css"> 
+    
+    <style>
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
     
@@ -15,35 +19,9 @@
         <div class="date-time-display">作業開始</div>
     </div>
     
-    <div class="grid-container">
+    <div class="main-grid-container">
         
-        <div class="grid-item queue-management-container">
-            <h1>新しい作業を追加</h1>
-
-            <div class="input-group">
-                <label for="task-name" class="input-label">タスク名:</label>
-                <input type="text" id="task-name" class="input-field" placeholder="例: A製品の製函">
-            </div>
-
-            <div class="input-group">
-                <label for="box-count" class="input-label">製函する段ボールの枚数:</label>
-                <div class="slider-container">
-                    <input type="range" id="box-count" min="1" max="100" value="10" class="slider">
-                    <span id="box-count-display" class="text-xl font-semibold text-gray-700">10枚</span>
-                </div>
-            </div>
-
-            <div class="input-group flex items-center gap-4">
-                <input type="checkbox" id="notification-toggle" class="form-checkbox h-5 w-5 text-blue-600 rounded">
-                <label for="notification-toggle" class="input-label mb-0">作業終了時に通知する</label>
-            </div>
-
-            <button id="add-to-queue-button" class="add-to-queue-button">
-                <i class="fas fa-plus-circle mr-2"></i> キューに追加
-            </button>
-        </div>
-
-        <div class="grid-item work-queue-list-container">
+        <div class="work-area">
             <h1>現在の作業キュー</h1>
             <div id="work-queue-list" class="queue-list">
                 <p>現在、キューに作業はありません。</p>
@@ -53,6 +31,29 @@
             </div>
         </div>
 
+        <div class="queue-management-area">
+            <h1>新しい作業を追加</h1>
+
+            <div class="input-group">
+                <label for="task-name" class="input-label">タスク名:</label>
+                <input type="text" id="task-name" class="input-field" placeholder="例: A製品の製函">
+            </div>
+
+            <div class="input-group">
+                <label for="box-count" class="input-label">製函する段ボールの枚数:</label>
+                <input type="number" id="box-count" class="input-field" min="1" max="100"  placeholder="1~100で入力してください" inputmode="numeric">
+            </div>
+
+            <div class="input-group flex items-center gap-4">
+                <input type="checkbox" id="notification-toggle" class="form-checkbox h-5 w-5 text-blue-600 rounded">
+                <label for="notification-toggle" class="mb-0 font-semibold text-gray-700">作業終了時に通知する</label>
+            </div>
+
+            <button id="add-to-queue-button" class="add-to-queue-button">
+                <i class="fas fa-plus-circle mr-2"></i> キューに追加
+            </button>
+        </div>
+        
         <div class="back-to-home-button-container">
             <button id="back-to-home-button" class="interactive-button back-button">
                 <i class="fas fa-shield-alt"></i> ホームに戻る
@@ -60,13 +61,20 @@
         </div>
     </div>
 
-
+    <div id="custom-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p id="modal-message" class="modal-message"></p>
+            <div id="modal-buttons" class="modal-buttons">
+                <button id="modal-ok-button" class="modal-button modal-ok-button">OK</button>
+                <button id="modal-cancel-button" class="modal-button modal-cancel-button hidden">キャンセル</button>
+            </div>
+        </div>
+    </div>
     
     <script>
-        // カスタムアラート/確認ダイアログの表示関数
         function showCustomModal(message, type = 'alert') {
             return new Promise((resolve) => {
-                const modal = document.getElementById('custom-modal');
+                const modal = document.getElementById('custom-modal'); 
                 const modalMessage = document.getElementById('modal-message');
                 const okButton = document.getElementById('modal-ok-button');
                 const cancelButton = document.getElementById('modal-cancel-button');
@@ -93,8 +101,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const boxCountSlider = document.getElementById('box-count');
-            const boxCountDisplay = document.getElementById('box-count-display');
+            const boxCountInput = document.getElementById('box-count');
             const addToQueueButton = document.getElementById('add-to-queue-button');
             const workQueueList = document.getElementById('work-queue-list');
             const taskNameInput = document.getElementById('task-name');
@@ -106,20 +113,25 @@
             let totalEstimatedTime = 0; 
             let timerInterval; 
 
-            boxCountSlider.addEventListener('input', () => {
-                boxCountDisplay.textContent = `${boxCountSlider.value}枚`;
-            });
-
             addToQueueButton.addEventListener('click', async () => {
                 const taskName = taskNameInput.value.trim();
-                const boxCount = parseInt(boxCountSlider.value);
+                const boxCount = parseInt(boxCountInput.value); 
                 const notifyOnCompletion = notificationToggle.checked;
+                
+                const minCount = 1;
+                const maxCount = 100;
 
                 if (!taskName) {
                     await showCustomModal('タスク名を入力してください。', 'alert');
                     return;
                 }
+                
+                if (isNaN(boxCount) || boxCount < minCount || boxCount > maxCount) {
+                    await showCustomModal(`製函枚数を${minCount}枚から${maxCount}枚の間の半角数字で入力してください。`, 'alert');
+                    return;
+                }
 
+                // 1枚あたり5秒と仮定
                 const estimatedTaskTime = boxCount * 5; 
 
                 const newItem = {
@@ -137,8 +149,7 @@
                 updateTotalEstimatedTime();
 
                 taskNameInput.value = '';
-                boxCountSlider.value = 10;
-                boxCountDisplay.textContent = '10枚';
+                boxCountInput.value = 10;
                 notificationToggle.checked = false;
 
                 await showCustomModal('キューに作業が追加されました！', 'alert');
@@ -226,16 +237,6 @@
             function updateTotalEstimatedTime() {
                 totalEstimatedTime = workQueue.reduce((sum, item) => sum + (item.completed ? 0 : item.remainingTime), 0);
                 remainingTimeDisplay.textContent = formatTime(totalEstimatedTime);
-
-                const currentTaskTimeElement = document.getElementById('current-task-time');
-                if (currentTaskTimeElement) {
-                    const firstUncompletedTask = workQueue.find(item => !item.completed);
-                    if (firstUncompletedTask) {
-                        currentTaskTimeElement.textContent = formatTime(firstUncompletedTask.remainingTime);
-                    } else {
-                        currentTaskTimeElement.textContent = '--:--:--';
-                    }
-                }
             }
 
             function startTimer() {
