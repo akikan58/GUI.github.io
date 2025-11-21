@@ -167,18 +167,7 @@ body {
 .queue-item-actions .delete-button { background-color: #ef4444; color: white; }
 .queue-item-actions .delete-button:hover { background-color: #dc2626; }
 
-.input-group { 
-    margin-bottom: 15px; 
-    gap: 20px;
-    padding-right: 20px;
-    
-}
-.input-label { 
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #333;
-}
+
 
 /* ★★★ 変更点: スライダー用のスタイルを削除したため、input-fieldスタイルを維持 ★★★ */
 .input-field {
@@ -197,14 +186,18 @@ body {
     color: white;
     padding: 15px 20px;
     border-radius: 8px;
-    font-size: 1.2rem;
+    font-size: 20;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    width: 100%;
+    width: 500px;
+    height: 50px;
     margin-top: 10px;
+    border: 1px solid #e2e8f0;
 }
-.add-to-queue-button:hover { background-color: #16a34a; }
+.add-to-queue-button:hover { 
+    background-color: #16a34a; 
+}
 
 .estimated-time {
     font-size: 18px;
