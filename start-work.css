@@ -76,7 +76,7 @@ body {
         grid-template-columns: 3fr 1fr; 
         grid-template-rows: 1fr 6vh; 
         gap: 10px; 
-        
+        margin: 5px 10px;
         height: calc(100dvh - 60px); 
         min-height: calc(100dvh - 60px);
     }
