@@ -10,7 +10,7 @@ body {
     min-height: 100dvh; 
     background: linear-gradient(135deg, #e0f2f7, #c6e2e9);
     margin: 0;
-    padding: 50px 0 0 0; 
+    padding: 0 0 0 0; 
     box-sizing: content-box; 
     position: relative;
     font-size: 14px; 
@@ -18,7 +18,7 @@ body {
     overflow: hidden; 
 }
 
-/* ヘッダーバンドのスタイル */
+/* ヘッダーバンドのスタイル 
 .header-band {
     position: fixed;
     top: 0;
@@ -32,7 +32,7 @@ body {
     align-items: center;
     padding: 0 15px; 
     z-index: 10;
-}
+}*/
 
 .date-time-display {
     font-size: 1.1rem; 
