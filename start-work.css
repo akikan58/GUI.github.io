@@ -1,5 +1,5 @@
 /* ======================================================= */
-/* start-work.css (最終統合版 - 横画面見切れ・余白修正済み) */
+/* start-work.css (最終統合版 - 数値入力フィールド適用) */
 /* ======================================================= */
 
 /* --- 1. ベーススタイル (スクロールなし維持) --- */
@@ -56,9 +56,8 @@ body {
 
 /* --- 2. 新しいグリッドレイアウトのためのスタイル --- */
 
-/* ★★★ 修正: .main-grid-container を .grid-container に変更 ★★★ */
-.grid-container {
-    /* 画面全体の高さを計算 (50pxヘッダー + 15px上下マージン = 80pxを引く) */
+.main-grid-container {
+    /* 画面全体の高さを計算 */
     height: calc(100dvh - 80px);
     min-height: calc(100dvh - 80px);
     
@@ -73,24 +72,19 @@ body {
 
 /* 2.2. レスポンシブ調整: タブレット横向き */
 @media screen and (min-width: 768px) and (orientation: landscape) {
-    /* ★★★ 修正: .main-grid-container を .grid-container に変更し、見切れを修正 ★★★ */
-    .grid-container {
+    .main-grid-container {
         grid-template-columns: 3fr 1fr; 
-        grid-template-rows: 1fr 6vh; /* 戻るボタンの行高さを固定 */
+        grid-template-rows: 1fr 6vh; 
         gap: 10px; 
-        
-        /* 見切れ修正: 上下マージンを5pxに減らす */
-        margin: 5px 15px; 
-        /* 見切れ修正: 計算値を 80px から 60px に変更 */
+        margin: 5px 10px;
         height: calc(100dvh - 60px); 
         min-height: calc(100dvh - 60px);
     }
     
-    /* ★★★ 修正: クラス名をHTMLに合わせて変更 (横画面配置) ★★★ */
-    .queue-management-container { /* 新規作業エリア (左側) */
+    .work-area { 
         grid-column: 1 / 2; grid-row: 1 / 2; 
     }
-    .work-queue-list-container { /* キューリストエリア (右側) */
+    .queue-management-area { 
         grid-column: 2 / 3; grid-row: 1 / 2;
     }
     .back-to-home-button-container {
@@ -105,7 +99,7 @@ body {
         color: white;
         padding: 15px 10px;
         border-radius: 8px;
-        /* font-size: 20; は無効なため削除または修正が必要ですが、ここでは維持しません */
+        font-size: 20;
         font-weight: 600;
         cursor: pointer;
         transition: background-color 0.2s ease;
@@ -122,8 +116,7 @@ body {
         font-weight: bold;
         padding: 0%;
         color: #333;
-        /* リストと残り時間の余白を調整 */
-        margin-top: 5px; 
+        margin-top: 5px;
         text-align: center;
     }
     .queue-list {
@@ -134,34 +127,29 @@ body {
         border-radius: 8px;
         padding: 10px;
         background-color: #f8fafc;
-        /* ★★★ 修正: 無効な '5x' を '5px' に修正 ★★★ */
-        margin-top: 5px; 
+        margin-top: 5x;
     }
 }
 
 
 /* --- 3. エリアコンテナとコンポーネントスタイル --- */
 
-/* ★★★ 修正: .work-area を .queue-management-container に変更 ★★★ */
-.queue-management-container {
+.work-area {
     display: flex;
     flex-direction: column;
-    /* 縦画面での要素間の共通の余白 */
-    gap: 20px; 
+    gap: 20px;
     padding: 20px; 
     background-color: white;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden; 
-    /* font-size: 20; は無効なため削除 */
+    font-size: 20;
 }
 
-/* ★★★ 修正: .queue-management-area を .work-queue-list-container に変更 ★★★ */
-.work-queue-list-container {
+.queue-management-area {
     display: flex;
     flex-direction: column;
-    /* 縦画面での要素間の共通の余白 */
-    gap: 20px; 
+    gap: 20px;
     padding: 20px; 
     background-color: white;
     border-radius: 12px;
@@ -249,7 +237,7 @@ body {
     color: white;
     padding: 15px 20px;
     border-radius: 8px;
-    /* font-size: 20; は無効なため削除 */
+    font-size: 20;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -266,8 +254,7 @@ body {
     font-size: 18px;
     font-weight: bold;
     color: #333;
-    /* 縦画面でのリストと残り時間の余白 */
-    margin-top: 10px; 
+    margin-top: 10px;
     text-align: center;
 }
 
