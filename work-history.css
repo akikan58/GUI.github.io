@@ -10,7 +10,8 @@ body {
     min-height: 100dvh; 
     background: linear-gradient(135deg, #e0f2f7, #c6e2e9);
     margin: 0;
-    padding: 0 0 0 0; 
+    /* bodyのパディングは上15px、下0px */
+    padding: 15px 15px 0; 
     box-sizing: border-box; 
     position: relative;
     font-size: 10px; 
@@ -23,7 +24,7 @@ body {
 
 /* ヘッダーの下、ボタンの上、全てを包含するラッパー */
 .main-content-wrapper {
-    /* 50pxヘッダー + 15pxトップパディング + 15pxボトムパディングを考慮 */
+    /* 50pxヘッダーを考慮。残りの高さ（bodyのパディング15pxを含む） */
     height: calc(100dvh - 50px); 
     min-height: calc(100dvh - 50px);
     
@@ -33,7 +34,8 @@ body {
     
     gap: 15px; /* カードとボタン間のスペース */
     width: 100%; 
-    padding: 15px; /* 左右と下のパディング */
+    /* 【修正】下部の15pxパディングを削除し、リストエリアを広げる */
+    padding: 15px 15px 0 15px; 
     box-sizing: border-box;
 }
 
@@ -61,7 +63,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 5px; /* 下部マージン */
+    /* 下部マージンは既に0pxで問題なし */
+    padding-bottom: 0px; 
 }
 
 .interactive-button {
