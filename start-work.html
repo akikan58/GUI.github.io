@@ -6,13 +6,12 @@
     <title>作業開始</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
     <link rel="stylesheet" href="start-work.css"> 
 </head>
 <body>
     
     <div class="header-band">
-        <div class="date-time-display">製函開始</div>
+        <div class="date-time-display">作業開始</div>
     </div>
     
     <div class="grid-container">
@@ -60,30 +59,21 @@
         </div>
     </div>
 
-
+    <div id="custom-modal" class="custom-modal hidden">
+        <div class="custom-modal-content">
+            <p id="modal-message" class="custom-modal-message"></p>
+            <div id="modal-buttons" class="custom-modal-buttons">
+                <button id="modal-ok-button" class="custom-modal-button custom-modal-ok">OK</button>
+                <button id="modal-cancel-button" class="custom-modal-button custom-modal-cancel hidden">キャンセル</button>
+            </div>
+        </div>
+    </div>
     
     <script>
         // カスタムアラート/確認ダイアログの表示関数
         function showCustomModal(message, type = 'alert') {
             return new Promise((resolve) => {
-                // HTMLにはモーダル要素が含まれていないため、ここでは仮に作成します
-                let modal = document.getElementById('custom-modal');
-                if (!modal) {
-                    modal = document.createElement('div');
-                    modal.id = 'custom-modal';
-                    modal.classList.add('custom-modal', 'hidden');
-                    modal.innerHTML = `
-                        <div class="custom-modal-content">
-                            <p id="modal-message" class="custom-modal-message"></p>
-                            <div class="custom-modal-buttons">
-                                <button id="modal-ok-button" class="custom-modal-button bg-blue-500 hover:bg-blue-600 text-white">OK</button>
-                                <button id="modal-cancel-button" class="custom-modal-button hidden bg-gray-300 hover:bg-gray-400 text-gray-800">キャンセル</button>
-                            </div>
-                        </div>
-                    `;
-                    document.body.appendChild(modal);
-                }
-
+                const modal = document.getElementById('custom-modal');
                 const modalMessage = document.getElementById('modal-message');
                 const okButton = document.getElementById('modal-ok-button');
                 const cancelButton = document.getElementById('modal-cancel-button');
@@ -115,44 +105,40 @@
             const addToQueueButton = document.getElementById('add-to-queue-button');
             const workQueueList = document.getElementById('work-queue-list');
             const taskNameInput = document.getElementById('task-name');
-            
-            // ★★★ この要素が null になっていないか確認済み ★★★
             const notificationToggle = document.getElementById('notification-toggle');
-            
             const remainingTimeDisplay = document.getElementById('remaining-time');
             const backToHomeButton = document.getElementById('back-to-home-button');
 
-            let workQueue = []; 
-            let totalEstimatedTime = 0; 
-            let timerInterval; 
+            let workQueue = []; // 作業キューを保持する配列
+            let totalEstimatedTime = 0; // 全体の予想残り時間 (秒)
+            let timerInterval; // タイマーのインターバルID
 
+            // スライダーの値が変更されたときに表示を更新
             boxCountSlider.addEventListener('input', () => {
                 boxCountDisplay.textContent = `${boxCountSlider.value}枚`;
             });
 
+            // キューにアイテムを追加する関数
             addToQueueButton.addEventListener('click', async () => {
                 const taskName = taskNameInput.value.trim();
                 const boxCount = parseInt(boxCountSlider.value);
-                
-                // ★★★ エラー対策: nullチェックを追加 (ただし、このHTML構造では不要なはず) ★★★
-                const notifyOnCompletion = notificationToggle 
-                    ? notificationToggle.checked 
-                    : false;
+                const notifyOnCompletion = notificationToggle.checked;
 
                 if (!taskName) {
                     await showCustomModal('タスク名を入力してください。', 'alert');
                     return;
                 }
 
-                const estimatedTaskTime = boxCount * 5; 
+                // サンプル作業時間計算 (1枚あたり5秒とする)
+                const estimatedTaskTime = boxCount * 5; // 秒
 
                 const newItem = {
-                    id: Date.now(), 
+                    id: Date.now(), // ユニークなID
                     name: taskName,
                     boxCount: boxCount,
                     notify: notifyOnCompletion,
-                    estimatedTime: estimatedTaskTime, 
-                    remainingTime: estimatedTaskTime, 
+                    estimatedTime: estimatedTaskTime, // 秒
+                    remainingTime: estimatedTaskTime, // 残り時間 (秒)
                     completed: false
                 };
 
@@ -160,24 +146,23 @@
                 renderQueue();
                 updateTotalEstimatedTime();
 
+                // 入力フィールドをリセット
                 taskNameInput.value = '';
                 boxCountSlider.value = 10;
                 boxCountDisplay.textContent = '10枚';
-                
-                // notificationToggle が null でなければチェックを外す
-                if(notificationToggle) {
-                    notificationToggle.checked = false;
-                }
+                notificationToggle.checked = false;
 
                 await showCustomModal('キューに作業が追加されました！', 'alert');
 
+                // キューにアイテムが追加されたらタイマーを開始
                 if (!timerInterval) {
                     startTimer();
                 }
             });
 
+            // キューをレンダリングする関数
             function renderQueue() {
-                workQueueList.innerHTML = ''; 
+                workQueueList.innerHTML = ''; // 一度クリア
                 if (workQueue.length === 0) {
                     workQueueList.innerHTML = '<p>現在、キューに作業はありません。</p>';
                     return;
@@ -185,6 +170,7 @@
 
                 workQueue.forEach(item => {
                     const queueItemDiv = document.createElement('div');
+                    // スタイルクラスはstart-work.cssで定義されたものを適用
                     queueItemDiv.classList.add('queue-item'); 
                     if (item.completed) {
                         queueItemDiv.classList.add('completed');
@@ -211,10 +197,13 @@
                             const confirmed = await showCustomModal(`${item.name} を完了しますか？`, 'confirm');
                             if (confirmed) {
                                 item.completed = true;
-                                if (typeof electronAPI !== 'undefined' && electronAPI.onShowAlert) {
-                                    electronAPI.onShowAlert(null, `${item.name} が完了しました！`);
-                                } else {
-                                    console.log(`${item.name} が完了しました！ (通知機能なし)`);
+                                if (item.notify) {
+                                    // 実際の通知処理 (ElectronのIPC経由など)
+                                    if (typeof electronAPI !== 'undefined' && electronAPI.onShowAlert) {
+                                        electronAPI.onShowAlert(null, `${item.name} が完了しました！`);
+                                    } else {
+                                        console.log(`${item.name} が完了しました！ (通知機能なし)`);
+                                    }
                                 }
                                 renderQueue();
                                 updateTotalEstimatedTime();
@@ -244,6 +233,7 @@
                 });
             }
 
+            // 時間をHH:MM:SS形式にフォーマットする関数
             function formatTime(seconds) {
                 const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
                 const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
@@ -251,10 +241,12 @@
                 return `${h}:${m}:${s}`;
             }
 
+            // 全体の予想残り時間を更新する関数
             function updateTotalEstimatedTime() {
                 totalEstimatedTime = workQueue.reduce((sum, item) => sum + (item.completed ? 0 : item.remainingTime), 0);
                 remainingTimeDisplay.textContent = formatTime(totalEstimatedTime);
 
+                // index.htmlの残り時間表示も更新 (この画面では不要だが、互換性のために残す)
                 const currentTaskTimeElement = document.getElementById('current-task-time');
                 if (currentTaskTimeElement) {
                     const firstUncompletedTask = workQueue.find(item => !item.completed);
@@ -266,6 +258,7 @@
                 }
             }
 
+            // タイマーを開始する関数
             function startTimer() {
                 if (timerInterval) return;
 
@@ -277,10 +270,12 @@
                             if (workQueue[i].remainingTime <= 0) {
                                 workQueue[i].remainingTime = 0;
                                 workQueue[i].completed = true;
-                                if (typeof electronAPI !== 'undefined' && electronAPI.onShowAlert) {
-                                    electronAPI.onShowAlert(null, `${workQueue[i].name} が時間になりました！`);
-                                } else {
-                                    console.log(`${workQueue[i].name} が時間になりました！ (通知機能なし)`);
+                                if (workQueue[i].notify) {
+                                    if (typeof electronAPI !== 'undefined' && electronAPI.onShowAlert) {
+                                        electronAPI.onShowAlert(null, `${workQueue[i].name} が時間になりました！`);
+                                    } else {
+                                        console.log(`${workQueue[i].name} が時間になりました！ (通知機能なし)`);
+                                    }
                                 }
                             }
                             activeTaskFound = true;
@@ -298,20 +293,24 @@
                 }, 1000);
             }
 
+            // タイマーを停止する関数
             function stopTimer() {
                 clearInterval(timerInterval);
                 timerInterval = null;
             }
 
+            // 初期レンダリング
             renderQueue();
             updateTotalEstimatedTime();
 
+            // メインプロセスからのメッセージを受信してアラート表示
             if (typeof electronAPI !== 'undefined' && electronAPI.onShowAlert) {
                 electronAPI.onShowAlert((event, message) => {
                     showCustomModal(message, 'alert');
                 });
             }
 
+            // ホームに戻るボタンのクリックイベント
             backToHomeButton.addEventListener('click', () => {
                 if (typeof electronAPI !== 'undefined' && electronAPI.navigateTo) {
                     electronAPI.navigateTo('index');
