@@ -115,10 +115,7 @@
             const addToQueueButton = document.getElementById('add-to-queue-button');
             const workQueueList = document.getElementById('work-queue-list');
             const taskNameInput = document.getElementById('task-name');
-            
-            // ★★★ この要素が null になっていないか確認済み ★★★
             const notificationToggle = document.getElementById('notification-toggle');
-            
             const remainingTimeDisplay = document.getElementById('remaining-time');
             const backToHomeButton = document.getElementById('back-to-home-button');
 
@@ -133,11 +130,7 @@
             addToQueueButton.addEventListener('click', async () => {
                 const taskName = taskNameInput.value.trim();
                 const boxCount = parseInt(boxCountSlider.value);
-                
-                // ★★★ エラー対策: nullチェックを追加 (ただし、このHTML構造では不要なはず) ★★★
-                const notifyOnCompletion = notificationToggle 
-                    ? notificationToggle.checked 
-                    : false;
+                const notifyOnCompletion = notificationToggle.checked;
 
                 if (!taskName) {
                     await showCustomModal('タスク名を入力してください。', 'alert');
@@ -163,11 +156,7 @@
                 taskNameInput.value = '';
                 boxCountSlider.value = 10;
                 boxCountDisplay.textContent = '10枚';
-                
-                // notificationToggle が null でなければチェックを外す
-                if(notificationToggle) {
-                    notificationToggle.checked = false;
-                }
+                notificationToggle.checked = false;
 
                 await showCustomModal('キューに作業が追加されました！', 'alert');
 
