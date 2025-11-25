@@ -1,8 +1,8 @@
 /* ======================================================= */
-/* start-work.css (最終統合版 - 数値入力フィールド適用) */
+/* start-work.css (全体サイズ縮小版) */
 /* ======================================================= */
 
-/* --- 1. ベーススタイル (スクロールなし維持) --- */
+/* --- 1. ベーススタイル --- */
 body {
     font-family: 'Inter', sans-serif;
     display: flex;
@@ -10,334 +10,263 @@ body {
     min-height: 100dvh; 
     background: linear-gradient(135deg, #e0f2f7, #c6e2e9);
     margin: 0;
-    padding: 0 0 0 0; 
+    padding-top: 50px; /* ★ ヘッダーバンドの高さに合わせてパディングを縮小 (60px -> 50px) */
+    padding-left: 0px; 
+    padding-right: 0px; 
+    padding-bottom: 0px;
     box-sizing: content-box; 
     position: relative;
-    font-size: 10px; 
+    font-size: 14px; /* ★ ベースフォントサイズをわずかに縮小 (16px -> 14px) */
     color: #333;
-    overflow: hidden; 
 }
 
-/* ヘッダーバンドのスタイル 
+/* ヘッダーバンドのスタイル */
 .header-band {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 50px; 
+    height: 50px; /* ★ 高さを縮小 (60px -> 50px) */
     background-color: #333;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     display: flex;
-    justify-content: center; 
+    justify-content: flex-end;
     align-items: center;
-    padding: 0 15px; 
+    padding: 0 15px; /* ★ パディングを縮小 */
     z-index: 10;
-}*/
+}
 
 .date-time-display {
-    font-size: 1.1rem; 
+    font-size: 1.2rem; /* ★ フォントサイズを縮小 (1.5rem -> 1.2rem) */
     font-weight: 600;
     color: white;
 }
 
+/* グリッドアイテムの共通スタイル */
+.grid-item {
+    background-color: white;
+    border: 2px solid #6b7280;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* ★ 影を控えめに */
+    border-radius: 10px; /* ★ 角丸を小さく */
+    padding: 15px; /* ★ パディングを縮小 (20px -> 15px) */
+    overflow: hidden;
+}
+
+/* インタラクティブボタンの基本スタイル */
 .interactive-button {
+    font-size: 1.5rem; /* ★ フォントサイズを縮小 (1.8rem -> 1.5rem) */
     font-weight: 600;
-    border-radius: 12px; 
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+    border-radius: 12px; /* ★ 角丸を小さく */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* ★ 影を控えめに */
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    min-width: 120px; /* ★ 最小幅を縮小 */
+    max-width: 100%;
     z-index: 1;
+    height: 100%;
     border: none;
     color: white;
     cursor: pointer;
-}
-
-
-/* --- 2. 新しいグリッドレイアウトのためのスタイル --- */
-
-.main-grid-container {
-    /* 画面全体の高さを計算 */
-    height: calc(100dvh - 80px);
-    min-height: calc(100dvh - 80px);
-    
-    display: grid;
-    grid-template-columns: 1fr; 
-    grid-template-rows: 35vh 1fr 6vh; 
-    
-    gap: 15px; 
-    width: calc(100% - 30px); 
-    margin: 15px; 
-}
-
-/* 2.2. レスポンシブ調整: タブレット横向き */
-@media screen and (min-width: 768px) and (orientation: landscape) {
-    .main-grid-container {
-        grid-template-columns: 3fr 1fr; 
-        grid-template-rows: 1fr 6vh; 
-        gap: 10px; 
-        margin: 5px 10px;
-        height: calc(100dvh - 60px); 
-        min-height: calc(100dvh - 60px);
-    }
-    
-    .work-area { 
-        grid-column: 1 / 2; grid-row: 1 / 2; 
-    }
-    .queue-management-area { 
-        grid-column: 2 / 3; grid-row: 1 / 2;
-    }
-    .back-to-home-button-container {
-        grid-column: 1 / 3; 
-        grid-row: 2 / 3; 
-        display: flex; 
-        justify-content: center;
-        align-items: center;
-    }
-    .add-to-queue-button {
-        background-color: #22c55e;
-        color: white;
-        padding: 15px 10px;
-        border-radius: 8px;
-        font-size: 20;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        width: 100%;
-        height: 50px;
-        margin-top: 10px;
-        border: 1px solid #e2e8f0;
-    }
-    .add-to-queue-button:hover { 
-        background-color: #16a34a; 
-    }
-    .estimated-time {
-        font-size: 18px;
-        font-weight: bold;
-        padding: 0%;
-        color: #333;
-        margin-top: 5px;
-        text-align: center;
-    }
-    .queue-list {
-        flex-grow: 1;
-        overflow-y: auto; 
-        height: 0; 
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 10px;
-        background-color: #f8fafc;
-        margin-top: 5x;
-    }
-}
-
-
-/* --- 3. エリアコンテナとコンポーネントスタイル --- */
-
-.work-area {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px; 
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden; 
-    font-size: 20;
-}
-
-.queue-management-area {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px; 
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.queue-list {
-    flex-grow: 1;
-    overflow-y: auto; 
-    height: 0; 
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #f8fafc;
-}
-
-
-.queue-item {
-    background-color: #f0f9ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.1rem;
-    color: #1e40af;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.queue-item.completed {
-    background-color: #d1fae5;
-    border-color: #34d399;
-    color: #065f46;
-    opacity: 0.7;
-}
-
-.queue-item-details {
-    flex-grow: 1;
-}
-
-.queue-item-actions button {
-    margin-left: 10px;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.queue-item-actions .complete-button { background-color: #10b981; color: white; }
-.queue-item-actions .complete-button:hover { background-color: #059669; }
-.queue-item-actions .delete-button { background-color: #ef4444; color: white; }
-.queue-item-actions .delete-button:hover { background-color: #dc2626; }
-
-
-
-/* ★★★ 変更点: スライダー用のスタイルを削除したため、input-fieldスタイルを維持 ★★★ */
-.input-field {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-}
-.input-group { 
-    margin-bottom: 15px; 
-    gap: 20px;
-    padding-right: 20px;
-    
-}
-.input-label { 
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #333;
-}
-
-/* スライダー関連のスタイルは削除 */
-
-
-.add-to-queue-button {
-    background-color: #22c55e;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    font-size: 20;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    width: 100%;
-    height: 50px;
-    margin-top: 10px;
-    border: 1px solid #e2e8f0;
-}
-.add-to-queue-button:hover { 
-    background-color: #16a34a; 
-}
-
-.estimated-time {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 10px;
-    text-align: center;
-}
-
-.back-button {
-    background: linear-gradient(135deg, #6b7280, #9ca3af);
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    max-width: 250px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: auto;
-    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
 }
-.back-to-home-button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.interactive-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
-
-.back-button:hover { background: linear-gradient(135deg, #4b5563, #6b7280); }
-
-.interactive-button::before {
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    position: absolute;
-    font-size: 250px;
-    color: rgba(255, 255, 255, 0.1);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
-    z-index: -1;
+.interactive-button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-.back-button i {
-    font-size: 1.5rem;
-}
-.back-button::before {
-    content: none; 
+.interactive-button i {
+    font-size: 20px; /* ★ アイコンサイズを縮小 (24px -> 20px) */
+    transition: transform 0.3s ease;
+    z-index: 2;
 }
 
-
-/* --- 4. モーダルスタイル --- */
-.custom-modal, .modal-overlay { 
+/* カスタムモーダルのスタイル */
+.custom-modal {
     position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.75);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    transition: opacity 0.3s;
 }
 
-.custom-modal-content, .modal-content {
+.custom-modal-content {
     background-color: white;
-    padding: 32px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    padding: 20px; /* ★ パディングを縮小 (30px -> 20px) */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-width: 90%; /* ★ 最大幅を広げ、小型デバイスに対応 */
+    min-width: 300px; /* ★ 最小幅を縮小 */
     text-align: center;
-    max-width: 400px;
-    width: 90%;
 }
 
-.custom-modal-message, .modal-message {
-    font-size: 1.25rem;
+.custom-modal-message {
+    font-size: 1.3rem; /* ★ フォントサイズを縮小 (1.5rem -> 1.3rem) */
     font-weight: 600;
     color: #333;
-    margin-bottom: 24px;
+    margin-bottom: 20px; /* ★ マージンを縮小 */
 }
 
-.custom-modal-buttons, .modal-buttons {
+.custom-modal-buttons {
     display: flex;
     justify-content: center;
-    gap: 16px;
+    gap: 10px; /* ★ ギャップを縮小 */
 }
 
-.custom-modal-button, .modal-button {
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: bold;
+.custom-modal-button {
+    padding: 10px 20px; /* ★ パディングを縮小 */
+    font-size: 1rem; /* ★ フォントサイズを縮小 (1.1rem -> 1rem) */
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.3s;
+    font-weight: bold;
 }
+
+.custom-modal-ok {
+    background-color: #3b82f6;
+    color: white;
+}
+.custom-modal-ok:hover {
+    background-color: #2563eb;
+}
+
+.custom-modal-cancel {
+    background-color: #9ca3af;
+    color: white;
+}
+.custom-modal-cancel:hover {
+    background-color: #6b7280;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- 2. start-work専用のレイアウトとスタイル --- */
+
+/* 2.1. ベースレイアウト: タブレット縦向き (デフォルト) */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr; 
+    /* 1行目: キュー追加エリア, 2行目: キューリスト, 3行目: 戻るボタン */
+    grid-template-rows: 35vh 1fr 8vh; /* ★ 縦の行の高さを縮小 (40vh, 10vh -> 35vh, 8vh) */
+    gap: 15px; /* ★ ギャップを縮小 (20px -> 15px) */
+    width: calc(100% - 30px); /* ★ 全体の幅を縮小 */
+    margin: 15px; /* ★ マージンを縮小 */
+    min-height: calc(100dvh - 65px); /* (50pxヘッダー + 15pxマージン) */
+    height: calc(100dvh - 65px);
+}
+
+/* 2.2. レスポンシブ調整: タブレット横向き */
+@media screen and (min-width: 768px) and (orientation: landscape) {
+    .grid-container {
+        /* 1列目: キューリスト (広め), 2列目: キュー追加 (狭め) */
+        grid-template-columns: 2fr 1.2fr; 
+        /* 1行目: メインエリア, 2行目: ボタン */
+        grid-template-rows: 1fr 12vh; /* ★ 戻るボタンの高さを縮小 (15vh -> 12vh) */
+        gap: 20px; /* ★ ギャップを縮小 (30px -> 20px) */
+    }
+    
+    /* 横向きでのグリッド配置は変更なし */
+    .work-queue-list-container { grid-column: 1 / 2; grid-row: 1 / 2; }
+    .queue-management-container { grid-column: 2 / 3; grid-row: 1 / 2; }
+    .back-to-home-button-container { grid-column: 1 / 3; grid-row: 2 / 3; }
+}
+
+
+/* --- 3. 要素のスタイル調整 (タッチ操作と視認性の向上) --- */
+
+/* 3.1. ヘッダーテキスト */
+h1 {
+    font-size: 1.5rem; /* ★ フォントサイズを縮小 (2rem -> 1.5rem) */
+    font-weight: bold;
+    color: #1f2937;
+    text-align: center;
+    margin-bottom: 0.75rem; /* ★ マージンを縮小 */
+}
+
+/* 3.2. 予想残り時間表示 */
+.estimated-time {
+    font-size: 1.5rem; /* ★ フォントサイズを縮小 (2rem -> 1.5rem) */
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px; /* ★ マージンを縮小 */
+    padding-top: 8px; /* ★ パディングを縮小 */
+    border-top: 1px solid #e5e7eb; /* ★ 線を細く */
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* 3.3. 入力フォーム */
+.input-group {
+    margin-bottom: 1rem; /* ★ マージンを縮小 (1.25rem -> 1rem) */
+}
+.input-label {
+    display: block;
+    font-size: 1rem; /* ★ フォントサイズを縮小 (1.2rem -> 1rem) */
+    margin-bottom: 0.4rem; /* ★ マージンを縮小 */
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px; /* ★ パディングを縮小 (14px -> 10px) */
+    font-size: 1rem; /* ★ フォントサイズを縮小 (1.2rem -> 1rem) */
+    border: 1px solid #d1d5db; /* ★ 線を細く */
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* 3.4. ボタン */
+.add-to-queue-button {
+    padding: 12px 15px; /* ★ パディングを縮小 (18px 20px -> 12px 15px) */
+    font-size: 1.2rem; /* ★ フォントサイズを縮小 (1.5rem -> 1.2rem) */
+    font-weight: bold;
+    border-radius: 6px;
+    margin-top: 5px; /* ★ マージンを縮小 */
+    /* ... 他の色設定は変更なし ... */
+}
+
+/* 3.5. 戻るボタン */
+.back-button {
+    padding: 15px 30px; /* ★ パディングを縮小 (20px 40px -> 15px 30px) */
+    font-size: 1.5rem; /* ★ フォントサイズを縮小 (2rem -> 1.5rem) */
+    margin: 0;
+}
+.back-button i {
+    font-size: 1.8rem; /* ★ アイコンサイズを縮小 (2.2rem -> 1.8rem) */
+}
+
+/* 3.6. キューアイテム */
+.queue-item {
+    font-size: 1rem; /* ★ フォントサイズを縮小 (1.2rem -> 1rem) */
+    padding: 0.75rem; /* ★ パディングを縮小 (1rem -> 0.75rem) */
+    margin-bottom: 8px; /* ★ マージンを縮小 */
+}
+.queue-item .font-bold {
+    font-size: 1.2rem; /* ★ フォントサイズを縮小 (1.4rem -> 1.2rem) */
+}
+.queue-item .text-sm {
+    font-size: 0.9rem; /* ★ フォントサイズを縮小 (1.1rem -> 0.9rem) */
+}
+.queue-item-actions button {
+    padding: 8px 12px; /* ★ パディングを縮小 */
+    font-size: 0.9rem; /* ★ フォントサイズを縮小 (1.1rem -> 0.9rem) */
+    margin-left: 8px; /* ★ マージンを縮小 */
+}
+/* ... (キューリスト本体、その他クラスは変更なし) ... */
