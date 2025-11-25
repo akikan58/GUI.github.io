@@ -63,8 +63,8 @@
                 </div>
             </div>
             
-            <div class="p-6 flex-grow flex flex-col">
-                <div id="history-table-container" class="flex-grow h-full overflow-y-auto relative">
+            <div class="p-6 flex-grow">
+                <div id="history-table-container" class="max-h-[500px] overflow-y-auto relative">
                     </div>
             </div>
         </div>
@@ -188,7 +188,7 @@
                 table.classList.add('min-w-full', 'divide-y', 'divide-gray-200', 'text-sm');
                 
                 // ヘッダー: 作業者ID, 記録日時, 開始時刻, 終了時刻, 製造個数, 不良数, 不良率
-                // Z-indexは前回の修正のまま維持しています
+                // Z-indexをz-30に上げて、リストが上を通過する問題を解決します。
                 table.innerHTML = `
                     <thead class="bg-gray-50 sticky top-0 z-30 border-b-2 border-gray-200">
                         <tr>
