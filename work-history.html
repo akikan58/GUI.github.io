@@ -7,8 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="work-history.css">
-    </head>
+</head>
 <body>
+    
     <div class="main-content-wrapper">
         <div class="history-card bg-white rounded-xl shadow-lg overflow-hidden">
             <div class="p-6 bg-gray-200">
@@ -62,8 +63,8 @@
                 </div>
             </div>
             
-            <div class="p-6 flex-grow overflow-y-auto">
-                <div id="history-table-container">
+            <div class="p-6 flex-grow">
+                <div id="history-table-container" class="max-h-[500px] overflow-y-auto relative">
                     </div>
             </div>
         </div>
@@ -92,16 +93,22 @@
 
             // 1. ダミーデータ (新しいカテゴリーに対応)
             const DUMMY_HISTORY_DATA = [
-                // workerId, recordDate(YYYY/MM/DD), startTime, endTime, manufacturedCount, defectiveCount
-                { id: 1, workerId: 'M1001', recordDate: '2023/11/24', startTime: '10:00', endTime: '10:04', manufacturedCount: 50, defectiveCount: 2 }, // 不良率: 4.0%
-                { id: 2, workerId: 'M1002', recordDate: '2023/11/24', startTime: '10:10', endTime: '10:12', manufacturedCount: 15, defectiveCount: 0 }, // 不良率: 0.0%
-                { id: 3, workerId: 'M1001', recordDate: '2023/11/23', startTime: '15:30', endTime: '15:42', manufacturedCount: 120, defectiveCount: 1 }, // 不良率: 0.8%
-                { id: 4, workerId: 'M1003', recordDate: '2023/11/23', startTime: '20:00', endTime: '20:03', manufacturedCount: 30, defectiveCount: 3 }, // 不良率: 10.0%
-                { id: 5, workerId: 'M1002', recordDate: '2023/11/22', startTime: '09:00', endTime: '09:08', manufacturedCount: 80, defectiveCount: 0 }, // 不良率: 0.0%
-                { id: 6, workerId: 'M1004', recordDate: '2023/11/22', startTime: '13:00', endTime: '13:05', manufacturedCount: 45, defectiveCount: 4 }, // 不良率: 8.9%
+                // ダミーデータを増やしてスクロールできるようにしています
+                { id: 1, workerId: 'M1001', recordDate: '2023/11/24', startTime: '10:00', endTime: '10:04', manufacturedCount: 50, defectiveCount: 2 },
+                { id: 2, workerId: 'M1002', recordDate: '2023/11/24', startTime: '10:10', endTime: '10:12', manufacturedCount: 15, defectiveCount: 0 },
+                { id: 3, workerId: 'M1001', recordDate: '2023/11/23', startTime: '15:30', endTime: '15:42', manufacturedCount: 120, defectiveCount: 1 },
+                { id: 4, workerId: 'M1003', recordDate: '2023/11/23', startTime: '20:00', endTime: '20:03', manufacturedCount: 30, defectiveCount: 3 },
+                { id: 5, workerId: 'M1002', recordDate: '2023/11/22', startTime: '09:00', endTime: '09:08', manufacturedCount: 80, defectiveCount: 0 },
+                { id: 6, workerId: 'M1004', recordDate: '2023/11/22', startTime: '13:00', endTime: '13:05', manufacturedCount: 45, defectiveCount: 4 },
                 { id: 7, workerId: 'M1001', recordDate: '2023/10/01', startTime: '10:00', endTime: '10:04', manufacturedCount: 50, defectiveCount: 0 },
                 { id: 8, workerId: 'M1002', recordDate: '2024/01/15', startTime: '10:10', endTime: '10:12', manufacturedCount: 15, defectiveCount: 1 },
                 { id: 9, workerId: 'M1003', recordDate: '2024/01/20', startTime: '15:30', endTime: '15:42', manufacturedCount: 120, defectiveCount: 0 },
+                { id: 10, workerId: 'M1004', recordDate: '2024/02/01', startTime: '11:00', endTime: '11:10', manufacturedCount: 60, defectiveCount: 5 },
+                { id: 11, workerId: 'M1001', recordDate: '2024/02/05', startTime: '12:00', endTime: '12:05', manufacturedCount: 75, defectiveCount: 0 },
+                { id: 12, workerId: 'M1002', recordDate: '2024/03/10', startTime: '14:30', endTime: '14:45', manufacturedCount: 90, defectiveCount: 1 },
+                { id: 13, workerId: 'M1003', recordDate: '2024/03/15', startTime: '16:00', endTime: '16:08', manufacturedCount: 40, defectiveCount: 2 },
+                { id: 14, workerId: 'M1004', recordDate: '2024/04/01', startTime: '10:00', endTime: '10:15', manufacturedCount: 150, defectiveCount: 3 },
+                { id: 15, workerId: 'M1001', recordDate: '2024/04/10', startTime: '13:00', endTime: '13:20', manufacturedCount: 100, defectiveCount: 0 },
             ];
 
             // 3. 期間・作業者フィルターのオプションを設定する関数
@@ -142,7 +149,6 @@
                 const filterUser = userFilter.value;
 
                 // 期間の開始日と終了日を YYYYMM 形式で設定（フィルタリングしやすくするため）
-                // フィルターが設定されていない場合は、非常に古い/新しい日付を設定して常に含める
                 let dateFrom = '000000';
                 if (filterYearFrom && filterMonthFrom) {
                     dateFrom = filterYearFrom + filterMonthFrom;
@@ -158,11 +164,9 @@
                     const userMatch = !filterUser || item.workerId === filterUser;
 
                     // 2. 期間によるフィルタリング
-                    // item.recordDate は YYYY/MM/DD 形式。これを YYYYMM に変換
                     const itemDateParts = item.recordDate.split('/');
                     const itemDateYM = itemDateParts[0] + itemDateParts[1];
 
-                    // 期間のFrom/Toの間に含まれているかチェック
                     const dateMatch = itemDateYM >= dateFrom && itemDateYM <= dateTo;
 
                     return userMatch && dateMatch;
@@ -185,6 +189,7 @@
                 table.classList.add('min-w-full', 'divide-y', 'divide-gray-200', 'text-sm');
                 
                 // ヘッダー: 作業者ID, 記録日時, 開始時刻, 終了時刻, 製造個数, 不良数, 不良率
+                // 注意: sticky top-0 は #history-table-container に対して相対的に機能します。
                 table.innerHTML = `
                     <thead class="bg-gray-50 sticky top-0 z-10">
                         <tr>
