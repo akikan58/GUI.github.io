@@ -10,8 +10,8 @@ body {
     min-height: 100dvh; 
     background: linear-gradient(135deg, #e0f2f7, #c6e2e9);
     margin: 0;
-    /* bodyのパディングは上15px、下0px */
-    padding: 15px 15px 0; /* 修正: 下部パディングを削除 */
+    /* bodyのパディングを最小限に */
+    padding: 5px; 
     box-sizing: border-box; 
     position: relative;
     font-size: 10px; 
@@ -19,29 +19,28 @@ body {
     overflow: hidden; /* ★重要: bodyのスクロールを禁止 */
 }
 
-
 /* --- 2. メインコンテンツとレイアウト --- */
 
 /* ヘッダーの下、ボタンの上、全てを包含するラッパー */
 .main-content-wrapper {
-    /* 50pxヘッダー + bodyの15pxトップパディングを考慮 */
-    height: calc(100dvh - 65px); /* 修正: 50pxから65pxに変更 (body上部15pxを引く) */
-    min-height: calc(100dvh - 65px);
+    /* bodyのパディング (上下5px) とボタン (約40px) の高さを考慮 */
+    height: calc(100dvh - 55px); 
+    min-height: calc(100dvh - 55px);
     
     display: flex;
     flex-direction: column;
     
-    
-    gap: 15px; /* カードとボタン間のスペース */
+    /* カードとボタン間のスペースを最小限に */
+    gap: 10px; 
     width: 100%; 
-    padding: 15px 15px 0 15px; /* 修正: 下部のパディングを0に */
+    padding: 0; 
     box-sizing: border-box;
 }
 
 .history-card {
-    /* bg-white rounded-xl shadow-lg のコンテナ */
-    flex-grow: 1; /* 残りのスペースを全て占有 */
-    overflow: hidden; /* 子要素のスクロールを制御 */
+    /* カードが残りのスペースを全て占有 */
+    flex-grow: 1;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     max-width: 100%;
@@ -49,20 +48,58 @@ body {
 
 /* テーブルのタイトル（履歴） */
 .history-card h1 {
-    font-size: 1.5rem;
+    /* フォントサイズを縮小してスペースを節約 */
+    font-size: 1.25rem;
     font-weight: bold;
 }
 
-/* --- 3. 戻るボタンのスタイル (start-work.cssと共通) --- */
+/* 独自のパディングクラスを定義 (Tailwindの余白クラスを置き換え) */
+
+/* タイトルエリアのパディング (px-6 py-2 相当) */
+.history-title-area {
+    padding: 8px 1.5rem; 
+}
+
+/* フィルターコントロールエリアのパディング (px-6 py-2 相当) */
+.filter-controls-area {
+    padding: 8px 1.5rem;
+}
+
+/* リストエリアのパディング (px-6 のみ) */
+.history-list-area {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    /* list-area自体が flex-grow overflow-y-auto relative を持ちます */
+}
+
+/* フィルターボタン下のマージン (mb-1 相当) */
+#filter-toggle-button {
+    margin-bottom: 4px;
+}
+
+/* フィルターパネル内のパディング削減 (p-4 から p-2 相当へ) */
+/* このセレクタはTailwindのp-4を上書きしています */
+#filter-panel > div {
+    padding: 8px !important; 
+}
+
+/* テーブル行の縦パディング削減 (py-1 相当) */
+.history-card table thead th,
+.history-card table tbody td {
+    padding-top: 4px;    /* py-1 相当 */
+    padding-bottom: 4px; /* py-1 相当 */
+}
+
+
+/* --- 3. 戻るボタンのスタイル (共通) --- */
 
 .back-to-home-button-container {
-    /* フッターのような役割で、下に固定される */
-    flex-shrink: 0; /* 縮まない */
+    flex-shrink: 0;
     height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 0px; /* 修正: 下部マージンを0に */
+    padding-bottom: 0px; 
 }
 
 .interactive-button {
@@ -80,8 +117,10 @@ body {
 
 .back-button {
     background: linear-gradient(135deg, #6b7280, #9ca3af);
-    padding: 10px 20px;
-    font-size: 1.2rem;
+    /* ボタンの縦パディングを減らして高さを削減 */
+    padding: 8px 18px; 
+    /* ボタンのフォントサイズを削減 */
+    font-size: 1rem;
     max-width: 250px;
     height: auto;
     display: flex;
@@ -92,7 +131,8 @@ body {
 
 .back-button:hover { background: linear-gradient(135deg, #4b5563, #6b7280); }
 .back-button i {
-    font-size: 1.5rem;
+    /* アイコンサイズを削減 */
+    font-size: 1.2rem;
 }
 .back-button::before {
     content: none; 
