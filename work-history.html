@@ -7,12 +7,59 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="work-history.css">
-</head>
+    </head>
 <body>
     <div class="main-content-wrapper">
         <div class="history-card bg-white rounded-xl shadow-lg overflow-hidden">
             <div class="p-6 bg-gray-200">
                 <h1 class="text-3xl font-bold text-center text-gray-800">過去の作業履歴</h1>
+            </div>
+            
+            <div class="p-6 pt-4">
+                <div class="flex flex-wrap items-end space-y-4 md:space-y-0 md:space-x-4 bg-gray-100 p-4 rounded-lg shadow-inner">
+                    
+                    <div class="flex-1 min-w-[200px]">
+                        <label for="year-from-filter" class="block text-sm font-medium text-gray-700 mb-1">期間 (年/月 From):</label>
+                        <div class="flex space-x-2">
+                            <select id="year-from-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">年</option>
+                            </select>
+                            <select id="month-from-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">月</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-shrink-0 flex items-center pt-8"> 
+                        <span class="text-3xl font-light text-gray-600">～</span>
+                    </div>
+                    
+                    <div class="flex-1 min-w-[200px]">
+                        <label for="year-to-filter" class="block text-sm font-medium text-gray-700 mb-1">期間 (年/月 To):</label>
+                        <div class="flex space-x-2">
+                            <select id="year-to-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">年</option>
+                            </select>
+                            <select id="month-to-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">月</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 min-w-[200px]">
+                        <label for="user-filter" class="block text-sm font-medium text-gray-700 mb-1">作業者:</label>
+                        <select id="user-filter" class="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="">全ての作業者</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex-shrink-0 w-full md:w-auto">
+                        <button id="search-button" class="w-full md:w-auto interactive-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-md shadow-md transition duration-300 mt-2 md:mt-0">
+                            <i class="fas fa-search mr-2"></i>
+                            検索
+                        </button>
+                    </div>
+                </div>
             </div>
             
             <div class="p-6 flex-grow overflow-y-auto">
@@ -33,22 +80,104 @@
         document.addEventListener('DOMContentLoaded', () => {
             const historyTableContainer = document.getElementById('history-table-container');
             const backToHomeButton = document.getElementById('back-to-home-button');
+            const searchButton = document.getElementById('search-button');
+
+            // フィルター要素の取得
+            const yearFromFilter = document.getElementById('year-from-filter');
+            const monthFromFilter = document.getElementById('month-from-filter');
+            const yearToFilter = document.getElementById('year-to-filter');
+            const monthToFilter = document.getElementById('month-to-filter');
+            const userFilter = document.getElementById('user-filter');
+
 
             // 1. ダミーデータ (新しいカテゴリーに対応)
             const DUMMY_HISTORY_DATA = [
-                // workerId, recordDate, startTime, endTime, manufacturedCount, defectiveCount
+                // workerId, recordDate(YYYY/MM/DD), startTime, endTime, manufacturedCount, defectiveCount
                 { id: 1, workerId: 'M1001', recordDate: '2023/11/24', startTime: '10:00', endTime: '10:04', manufacturedCount: 50, defectiveCount: 2 }, // 不良率: 4.0%
                 { id: 2, workerId: 'M1002', recordDate: '2023/11/24', startTime: '10:10', endTime: '10:12', manufacturedCount: 15, defectiveCount: 0 }, // 不良率: 0.0%
                 { id: 3, workerId: 'M1001', recordDate: '2023/11/23', startTime: '15:30', endTime: '15:42', manufacturedCount: 120, defectiveCount: 1 }, // 不良率: 0.8%
                 { id: 4, workerId: 'M1003', recordDate: '2023/11/23', startTime: '20:00', endTime: '20:03', manufacturedCount: 30, defectiveCount: 3 }, // 不良率: 10.0%
                 { id: 5, workerId: 'M1002', recordDate: '2023/11/22', startTime: '09:00', endTime: '09:08', manufacturedCount: 80, defectiveCount: 0 }, // 不良率: 0.0%
                 { id: 6, workerId: 'M1004', recordDate: '2023/11/22', startTime: '13:00', endTime: '13:05', manufacturedCount: 45, defectiveCount: 4 }, // 不良率: 8.9%
+                { id: 7, workerId: 'M1001', recordDate: '2023/10/01', startTime: '10:00', endTime: '10:04', manufacturedCount: 50, defectiveCount: 0 },
+                { id: 8, workerId: 'M1002', recordDate: '2024/01/15', startTime: '10:10', endTime: '10:12', manufacturedCount: 15, defectiveCount: 1 },
+                { id: 9, workerId: 'M1003', recordDate: '2024/01/20', startTime: '15:30', endTime: '15:42', manufacturedCount: 120, defectiveCount: 0 },
             ];
 
-            // 2. テーブルレンダリング関数 (新しいカテゴリーに対応)
+            // 3. 期間・作業者フィルターのオプションを設定する関数
+            function setupFilters() {
+                const dates = DUMMY_HISTORY_DATA.map(item => item.recordDate.split('/')[0]); // 年のみ取得
+                const uniqueYears = [...new Set(dates)].sort((a, b) => b - a); // 降順ソート
+                const years = uniqueYears.filter(y => y.length === 4); // 4桁の年のみ
+
+                // 年のオプションを追加
+                years.forEach(year => {
+                    yearFromFilter.add(new Option(year, year));
+                    yearToFilter.add(new Option(year, year));
+                });
+
+                // 月のオプションを追加
+                for (let i = 1; i <= 12; i++) {
+                    const month = String(i).padStart(2, '0');
+                    monthFromFilter.add(new Option(month, month));
+                    monthToFilter.add(new Option(month, month));
+                }
+
+                // 作業者オプションを追加
+                const workerIds = DUMMY_HISTORY_DATA.map(item => item.workerId);
+                const uniqueWorkerIds = [...new Set(workerIds)].sort();
+
+                uniqueWorkerIds.forEach(id => {
+                    userFilter.add(new Option(id, id));
+                });
+            }
+
+            // 4. データをフィルタリングする関数
+            function filterHistoryData() {
+                // フィルター値の取得
+                const filterYearFrom = yearFromFilter.value;
+                const filterMonthFrom = monthFromFilter.value;
+                const filterYearTo = yearToFilter.value;
+                const filterMonthTo = monthToFilter.value;
+                const filterUser = userFilter.value;
+
+                // 期間の開始日と終了日を YYYYMM 形式で設定（フィルタリングしやすくするため）
+                // フィルターが設定されていない場合は、非常に古い/新しい日付を設定して常に含める
+                let dateFrom = '000000';
+                if (filterYearFrom && filterMonthFrom) {
+                    dateFrom = filterYearFrom + filterMonthFrom;
+                }
+                
+                let dateTo = '999999';
+                if (filterYearTo && filterMonthTo) {
+                    dateTo = filterYearTo + filterMonthTo;
+                }
+
+                const filteredData = DUMMY_HISTORY_DATA.filter(item => {
+                    // 1. 作業者IDによるフィルタリング
+                    const userMatch = !filterUser || item.workerId === filterUser;
+
+                    // 2. 期間によるフィルタリング
+                    // item.recordDate は YYYY/MM/DD 形式。これを YYYYMM に変換
+                    const itemDateParts = item.recordDate.split('/');
+                    const itemDateYM = itemDateParts[0] + itemDateParts[1];
+
+                    // 期間のFrom/Toの間に含まれているかチェック
+                    const dateMatch = itemDateYM >= dateFrom && itemDateYM <= dateTo;
+
+                    return userMatch && dateMatch;
+                });
+
+                // フィルタリングされたデータでテーブルを再描画
+                renderHistoryTable(filteredData);
+            }
+
+            // 5. テーブルレンダリング関数 (変更なし)
             function renderHistoryTable(data) {
+                historyTableContainer.innerHTML = ''; // コンテナをクリア
+                
                 if (data.length === 0) {
-                    historyTableContainer.innerHTML = '<p class="text-center text-gray-500 py-10">履歴データがありません。</p>';
+                    historyTableContainer.innerHTML = '<p class="text-center text-gray-500 py-10">該当する履歴データがありません。</p>';
                     return;
                 }
 
@@ -93,10 +222,11 @@
                 historyTableContainer.appendChild(table);
             }
 
-            // 初期表示
-            renderHistoryTable(DUMMY_HISTORY_DATA);
+            // 6. イベントリスナーの設定
+            // 検索ボタンクリックでフィルターを実行
+            searchButton.addEventListener('click', filterHistoryData);
 
-            // 3. ホームに戻るボタンのイベント
+            // ホームに戻るボタンのイベント (既存のもの)
             backToHomeButton.addEventListener('click', () => {
                 if (typeof electronAPI !== 'undefined' && electronAPI.navigateTo) {
                     electronAPI.navigateTo('index');
@@ -104,6 +234,11 @@
                     location.href = 'index.html';
                 }
             });
+
+
+            // 初期処理
+            setupFilters(); // フィルターオプションを初期設定
+            filterHistoryData(); // 初期表示（全てのデータを表示）
         });
     </script>
 </body>
