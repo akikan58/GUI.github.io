@@ -1,0 +1,121 @@
+/* ======================================================= */
+/* work-history.css (作業履歴用 - 全画面レイアウト) */
+/* ======================================================= */
+
+/* --- 1. ベーススタイル (スクロールなし維持) --- */
+body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh; 
+    background: linear-gradient(135deg, #e0f2f7, #c6e2e9);
+    margin: 0;
+    padding: 0; 
+    box-sizing: border-box; 
+    position: relative;
+    font-size: 10px; 
+    color: #333;
+    overflow: hidden; /* ★重要: bodyのスクロールを禁止 */
+}
+
+/* ヘッダーバンドのスタイル (50px固定) */
+.header-band {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; 
+    background-color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    padding: 0 15px; 
+    z-index: 10;
+}
+
+.date-time-display {
+    font-size: 1.1rem; 
+    font-weight: 600;
+    color: white;
+}
+
+/* --- 2. メインコンテンツとレイアウト --- */
+
+/* ヘッダーの下、ボタンの上、全てを包含するラッパー */
+.main-content-wrapper {
+    /* 50pxヘッダー + 15pxトップマージン を考慮 */
+    height: calc(100dvh - 50px); 
+    min-height: calc(100dvh - 50px);
+    
+    display: flex;
+    flex-direction: column;
+    
+    /* ヘッダーの高さ分、上からずらす */
+    margin-top: 50px; 
+    
+    gap: 15px; /* カードとボタン間のスペース */
+    width: 100%; 
+    padding: 15px; /* 左右と下のパディング */
+    box-sizing: border-box;
+}
+
+.history-card {
+    /* bg-white rounded-xl shadow-lg のコンテナ */
+    flex-grow: 1; /* 残りのスペースを全て占有 */
+    overflow: hidden; /* 子要素のスクロールを制御 */
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+}
+
+/* テーブルのタイトル（履歴） */
+.history-card h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* --- 3. 戻るボタンのスタイル (start-work.cssと共通) --- */
+
+.back-to-home-button-container {
+    /* フッターのような役割で、下に固定される */
+    flex-shrink: 0; /* 縮まない */
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 5px; /* 下部マージン */
+}
+
+.interactive-button {
+    font-weight: 600;
+    border-radius: 12px; 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.back-button {
+    background: linear-gradient(135deg, #6b7280, #9ca3af);
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    max-width: 250px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.back-button:hover { background: linear-gradient(135deg, #4b5563, #6b7280); }
+.back-button i {
+    font-size: 1.5rem;
+}
+.back-button::before {
+    content: none; 
+}
