@@ -17,54 +17,61 @@
             </div>
             
             <div class="p-6 pt-4">
-                <div class="flex flex-wrap items-end space-y-4 md:space-y-0 md:space-x-4 bg-gray-100 p-4 rounded-lg shadow-inner">
-                    
-                    <div class="flex-1 min-w-[200px]">
-                        <label for="year-from-filter" class="block text-sm font-medium text-gray-700 mb-1">期間 (年/月 From):</label>
-                        <div class="flex space-x-2">
-                            <select id="year-from-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="">年</option>
-                            </select>
-                            <select id="month-from-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="">月</option>
+                <button id="filter-toggle-button" class="interactive-button bg-gray-500 hover:bg-gray-700 text-white font-bold py-2.5 px-6 rounded-md shadow-md transition duration-300 w-full mb-4">
+                    <i class="fas fa-filter mr-2"></i> 
+                    フィルターを表示
+                </button>
+                
+                <div id="filter-panel" class="hidden">
+                    <div class="flex flex-wrap items-end space-y-4 md:space-y-0 md:space-x-4 bg-gray-100 p-4 rounded-lg shadow-inner">
+                        
+                        <div class="flex-1 min-w-[200px]">
+                            <label for="year-from-filter" class="block text-sm font-medium text-gray-700 mb-1">期間 (年/月 From):</label>
+                            <div class="flex space-x-2">
+                                <select id="year-from-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option value="">年</option>
+                                </select>
+                                <select id="month-from-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option value="">月</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-shrink-0 flex items-center pt-8"> 
+                            <span class="text-3xl font-light text-gray-600">～</span>
+                        </div>
+                        
+                        <div class="flex-1 min-w-[200px]">
+                            <label for="year-to-filter" class="block text-sm font-medium text-gray-700 mb-1">期間 (年/月 To):</label>
+                            <div class="flex space-x-2">
+                                <select id="year-to-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option value="">年</option>
+                                </select>
+                                <select id="month-to-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option value="">月</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 min-w-[200px]">
+                            <label for="user-filter" class="block text-sm font-medium text-gray-700 mb-1">作業者:</label>
+                            <select id="user-filter" class="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="">全ての作業者</option>
                             </select>
                         </div>
-                    </div>
-                    
-                    <div class="flex-shrink-0 flex items-center pt-8"> 
-                        <span class="text-3xl font-light text-gray-600">～</span>
-                    </div>
-                    
-                    <div class="flex-1 min-w-[200px]">
-                        <label for="year-to-filter" class="block text-sm font-medium text-gray-700 mb-1">期間 (年/月 To):</label>
-                        <div class="flex space-x-2">
-                            <select id="year-to-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="">年</option>
-                            </select>
-                            <select id="month-to-filter" class="w-1/2 border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="">月</option>
-                            </select>
+                        
+                        <div class="flex-shrink-0 w-full md:w-auto">
+                            <button id="search-button" class="w-full md:w-auto interactive-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-md shadow-md transition duration-300 mt-2 md:mt-0">
+                                <i class="fas fa-search mr-2"></i>
+                                検索を実行
+                            </button>
                         </div>
-                    </div>
-                    
-                    <div class="flex-1 min-w-[200px]">
-                        <label for="user-filter" class="block text-sm font-medium text-gray-700 mb-1">作業者:</label>
-                        <select id="user-filter" class="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="">全ての作業者</option>
-                        </select>
-                    </div>
-                    
-                    <div class="flex-shrink-0 w-full md:w-auto">
-                        <button id="search-button" class="w-full md:w-auto interactive-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-md shadow-md transition duration-300 mt-2 md:mt-0">
-                            <i class="fas fa-search mr-2"></i>
-                            検索
-                        </button>
                     </div>
                 </div>
             </div>
             
-            <div class="p-6 flex-grow">
-                <div id="history-table-container" class="max-h-[500px] overflow-y-auto relative">
+            <div class="px-6 flex-grow overflow-y-auto relative">
+                <div id="history-table-container">
                     </div>
             </div>
         </div>
@@ -82,6 +89,11 @@
             const historyTableContainer = document.getElementById('history-table-container');
             const backToHomeButton = document.getElementById('back-to-home-button');
             const searchButton = document.getElementById('search-button');
+            
+            // フィルター要素
+            const filterToggleButton = document.getElementById('filter-toggle-button');
+            const filterPanel = document.getElementById('filter-panel');
+            
 
             // フィルター要素の取得
             const yearFromFilter = document.getElementById('year-from-filter');
@@ -187,18 +199,17 @@
                 const table = document.createElement('table');
                 table.classList.add('min-w-full', 'divide-y', 'divide-gray-200', 'text-sm');
                 
-                // ヘッダー: 作業者ID, 記録日時, 開始時刻, 終了時刻, 製造個数, 不良数, 不良率
-                // Z-indexをz-30に上げて、リストが上を通過する問題を解決します。
+                // ヘッダー: 項目名短縮とpx-1パディングを適用 (横向き最適化)
                 table.innerHTML = `
                     <thead class="bg-gray-50 sticky top-0 z-30 border-b-2 border-gray-200">
                         <tr>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">作業者ID</th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">記録日時</th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">開始時刻</th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">終了時刻</th>
-                            <th class="px-3 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">製造個数</th>
-                            <th class="px-3 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">不良数</th>
-                            <th class="px-3 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">不良率</th>
+                            <th class="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">作業者ID</th>
+                            <th class="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">日時</th>
+                            <th class="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">開始</th>
+                            <th class="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">終了</th>
+                            <th class="px-1 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">製造</th>
+                            <th class="px-1 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">不良</th>
+                            <th class="px-1 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">不良率</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -210,13 +221,13 @@
 
                             return `
                                 <tr class="${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50 transition duration-150">
-                                    <td class="px-3 py-3 whitespace-nowrap text-gray-900">${item.workerId}</td>
-                                    <td class="px-3 py-3 whitespace-nowrap text-gray-900">${item.recordDate}</td>
-                                    <td class="px-3 py-3 whitespace-nowrap text-gray-500">${item.startTime}</td>
-                                    <td class="px-3 py-3 whitespace-nowrap text-gray-500">${item.endTime}</td>
-                                    <td class="px-3 py-3 whitespace-nowrap text-right text-blue-600 font-bold">${item.manufacturedCount}</td>
-                                    <td class="px-3 py-3 whitespace-nowrap text-right ${item.defectiveCount > 0 ? 'text-red-600' : 'text-gray-700'} font-bold">${item.defectiveCount}</td>
-                                    <td class="px-3 py-3 whitespace-nowrap text-right font-semibold text-gray-700">${defectRate}%</td>
+                                    <td class="px-1 py-3 whitespace-nowrap text-gray-900">${item.workerId}</td>
+                                    <td class="px-1 py-3 whitespace-nowrap text-gray-900">${item.recordDate}</td>
+                                    <td class="px-1 py-3 whitespace-nowrap text-gray-500">${item.startTime}</td>
+                                    <td class="px-1 py-3 whitespace-nowrap text-gray-500">${item.endTime}</td>
+                                    <td class="px-1 py-3 whitespace-nowrap text-right text-blue-600 font-bold">${item.manufacturedCount}</td>
+                                    <td class="px-1 py-3 whitespace-nowrap text-right ${item.defectiveCount > 0 ? 'text-red-600' : 'text-gray-700'} font-bold">${item.defectiveCount}</td>
+                                    <td class="px-1 py-3 whitespace-nowrap text-right font-semibold text-gray-700">${defectRate}%</td>
                                 </tr>
                             `;
                         }).join('')}
@@ -227,6 +238,18 @@
             }
 
             // 6. イベントリスナーの設定
+            
+            // フィルター表示/非表示の切り替え
+            filterToggleButton.addEventListener('click', () => {
+                filterPanel.classList.toggle('hidden');
+                
+                // ボタンのテキストとアイコンを更新
+                const isHidden = filterPanel.classList.contains('hidden');
+                filterToggleButton.innerHTML = isHidden
+                    ? '<i class="fas fa-filter mr-2"></i> フィルターを表示'
+                    : '<i class="fas fa-times mr-2"></i> フィルターを非表示';
+            });
+            
             // 検索ボタンクリックでフィルターを実行
             searchButton.addEventListener('click', filterHistoryData);
 
