@@ -44,7 +44,7 @@ body {
 
 /* ヘッダーの下、ボタンの上、全てを包含するラッパー */
 .main-content-wrapper {
-    /* 50pxヘッダー + 15pxトップマージン を考慮 */
+    /* 50pxヘッダー + 15pxトップパディング + 15pxボトムパディングを考慮 */
     height: calc(100dvh - 50px); 
     min-height: calc(100dvh - 50px);
     
