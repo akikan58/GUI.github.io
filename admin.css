@@ -1,0 +1,144 @@
+/* ======================================================= */
+/* admin.css (管理者メニュー用 - work-history.cssをベース) */
+/* ======================================================= */
+
+/* --- 1. ベーススタイル (フルスクリーンレイアウト) --- */
+body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh; 
+    background: linear-gradient(135deg, #e0f2f7, #c6e2e9);
+    margin: 0;
+    /* bodyのパディングを最小限に */
+    padding: 5px; 
+    box-sizing: border-box; 
+    position: relative;
+    font-size: 10px; 
+    color: #333;
+    overflow: hidden; /* ★重要: bodyのスクロールを禁止 */
+}
+
+/* ヘッダーの下、ボタンの上、全てを包含するラッパー */
+.main-content-wrapper {
+    /* bodyのパディング (上下5px) とボタン (約40px) の高さを考慮 */
+    height: calc(100dvh - 55px); 
+    min-height: calc(100dvh - 55px);
+    
+    display: flex;
+    flex-direction: column;
+    
+    /* カードとボタン間のスペースを最小限に */
+    gap: 10px; 
+    width: 100%; 
+    padding: 0; 
+    box-sizing: border-box;
+}
+
+.admin-card {
+    /* work-historyの.history-cardに相当 */
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+}
+
+/* --- 2. 独自のパディング・サイズ調整 (work-history.cssのカスタムクラスに準拠) --- */
+
+/* タイトルエリアのパディング (px-6 py-2 相当) */
+.admin-title-area {
+    padding: 8px 1.5rem; 
+}
+/* タイトルH1のフォントサイズ縮小 (work-history.cssから流用) */
+.admin-card h1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* フィルターコントロールエリアのパディング (px-6 py-2 相当) */
+.filter-controls-area {
+    padding: 8px 1.5rem;
+}
+
+/* リストエリアのパディング (px-6 のみ) */
+.admin-list-area {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    /* リストエリアが残りの領域を占有し、内部でスクロールする設定をHTMLで持たせる */
+}
+
+/* フィルターパネル内のパディング削減 (p-4 から p-2 相当へ) */
+#filter-panel > div {
+    padding: 8px !important; 
+}
+
+/* テーブル行の縦パディング削減 (work-history.cssから流用: py-1 相当) */
+.admin-card table thead th,
+.admin-card table tbody td {
+    padding-top: 4px;    /* py-1 相当 */
+    padding-bottom: 4px; /* py-1 相当 */
+}
+
+/* ユーザー追加/検索ボタン下のマージン */
+.action-button-group {
+    margin-bottom: 4px; /* mb-1 相当 */
+}
+
+
+/* --- 3. ボタンのスタイル (共通) --- */
+
+.back-to-home-button-container {
+    flex-shrink: 0;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 0px; 
+}
+
+.interactive-button {
+    font-weight: 600;
+    border-radius: 12px; 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* 戻るボタンのスタイル */
+.back-button {
+    background: linear-gradient(135deg, #6b7280, #9ca3af);
+    padding: 8px 18px; 
+    font-size: 1rem;
+    max-width: 250px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.back-button:hover { background: linear-gradient(135deg, #4b5563, #6b7280); }
+.back-button i {
+    font-size: 1.2rem;
+}
+
+/* ユーザー追加ボタンのスタイル */
+.add-button {
+    background: linear-gradient(135deg, #10b981, #059669); /* エメラルドグリーン系 */
+    padding: 8px 18px; 
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.add-button:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+}
