@@ -6,29 +6,54 @@
     <title>管理者メニュー</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-    <div class="header-band">
-        <div class="date-time-display">管理者メニュー</div>
-    </div>
-
-    <div class="container mx-auto p-4 md:p-8">
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden my-8">
-            <div class="p-6 bg-gray-200 flex justify-between items-center">
+    
+    <div class="main-content-wrapper">
+        <div class="admin-card bg-white rounded-xl shadow-lg overflow-hidden">
+            
+            <div class="admin-title-area bg-gray-200 flex justify-between items-center">
                 <h1 class="text-3xl font-bold text-gray-800">ユーザー管理</h1>
-                <button id="add-user-button" class="action-button add-button">
-                    <i class="fas fa-user-plus"></i>
-                    <span>ユーザー追加</span>
-                </button>
+                <div class="flex space-x-2">
+                     <button id="add-user-button" class="interactive-button add-button">
+                        <i class="fas fa-user-plus"></i>
+                        <span>追加</span>
+                    </button>
+                </div>
             </div>
             
-            <div class="p-6">
-                <div id="user-table-container"></div>
+            <div class="filter-controls-area">
+                <button id="filter-toggle-button" class="interactive-button bg-gray-500 hover:bg-gray-700 text-white font-bold py-2.5 px-6 rounded-md shadow-md transition duration-300 w-full action-button-group">
+                    <i class="fas fa-search mr-2"></i> 
+                    検索フィルターを表示
+                </button>
+                
+                <div id="filter-panel" class="hidden">
+                    <div class="flex flex-wrap items-end space-y-4 md:space-y-0 md:space-x-4 bg-gray-100 rounded-lg shadow-inner">
+                        
+                        <div class="flex-1 min-w-[200px]">
+                            <label for="search-input" class="block text-sm font-medium text-gray-700 mb-1">ユーザーID / 氏名:</label>
+                            <input type="text" id="search-input" placeholder="検索キーワードを入力" class="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        
+                        <div class="flex-shrink-0 w-full md:w-auto">
+                            <button id="search-button" class="w-full md:w-auto interactive-button bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-md shadow-md transition duration-300 mt-2 md:mt-0">
+                                <i class="fas fa-search mr-2"></i>
+                                検索を実行
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-list-area flex-grow overflow-y-auto relative">
+                <div id="user-table-container">
+                    </div>
             </div>
         </div>
         
-        <div class="flex justify-center mt-8">
+        <div class="back-to-home-button-container">
             <button id="back-to-home-button" class="interactive-button back-button">
                 <i class="fas fa-arrow-left"></i>
                 <span>ホームに戻る</span>
@@ -36,6 +61,137 @@
         </div>
     </div>
 
-    <script src="./renderer.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userTableContainer = document.getElementById('user-table-container');
+            const backToHomeButton = document.getElementById('back-to-home-button');
+            const addUserButton = document.getElementById('add-user-button');
+            const searchButton = document.getElementById('search-button');
+            
+            const filterToggleButton = document.getElementById('filter-toggle-button');
+            const filterPanel = document.getElementById('filter-panel');
+            const searchInput = document.getElementById('search-input');
+
+
+            // 1. ダミーデータ
+            const DUMMY_USER_DATA = [
+                { id: 'M1001', name: '佐藤 太郎', role: '作業員', lastLogin: '2024/10/25 10:30' },
+                { id: 'M1002', name: '田中 花子', role: '作業員', lastLogin: '2024/10/25 09:00' },
+                { id: 'A0001', name: '管理者 A', role: '管理者', lastLogin: '2024/10/25 11:45' },
+                { id: 'M1003', name: '山田 次郎', role: '作業員', lastLogin: '2024/10/24 18:00' },
+                { id: 'M1004', name: '鈴木 明美', role: '作業員', lastLogin: '2024/10/24 15:30' },
+                { id: 'M1005', name: '高橋 健太', role: '作業員', lastLogin: '2024/10/23 08:00' },
+                { id: 'A0002', name: '管理者 B', role: '管理者', lastLogin: '2024/10/23 10:00' },
+                { id: 'M1006', name: '渡辺 奈緒', role: '作業員', lastLogin: '2024/10/22 13:00' },
+                { id: 'M1007', name: '伊藤 雅人', role: '作業員', lastLogin: '2024/10/22 09:00' },
+                // スクロールテスト用にデータを増やす
+                { id: 'M1008', name: '中村 裕子', role: '作業員', lastLogin: '2024/10/21 17:00' },
+                { id: 'M1009', name: '小林 悟', role: '作業員', lastLogin: '2024/10/21 11:00' },
+                { id: 'M1010', name: '加藤 愛', role: '作業員', lastLogin: '2024/10/20 14:00' },
+                { id: 'M1011', name: '吉田 大輔', role: '作業員', lastLogin: '2024/10/20 09:00' },
+                { id: 'M1012', name: '林 美香', role: '作業員', lastLogin: '2024/10/19 12:00' },
+                { id: 'M1013', name: '石田 隆', role: '作業員', lastLogin: '2024/10/19 08:30' },
+            ];
+
+            // 2. ユーザーデータフィルタリング関数
+            function filterUsers() {
+                const keyword = searchInput.value.toLowerCase().trim();
+
+                const filteredData = DUMMY_USER_DATA.filter(user => {
+                    if (!keyword) return true;
+                    
+                    // IDまたは氏名にキーワードが含まれていれば一致
+                    return user.id.toLowerCase().includes(keyword) || 
+                           user.name.toLowerCase().includes(keyword);
+                });
+
+                renderUserTable(filteredData);
+            }
+
+            // 3. テーブルレンダリング関数
+            function renderUserTable(data) {
+                userTableContainer.innerHTML = ''; // コンテナをクリア
+                
+                if (data.length === 0) {
+                    userTableContainer.innerHTML = '<p class="text-center text-gray-500 py-10">該当するユーザーデータがありません。</p>';
+                    return;
+                }
+
+                const table = document.createElement('table');
+                // text-smはadmin.cssでbodyのfont-sizeが10pxに設定されているため、相対的に大きくなる
+                table.classList.add('min-w-full', 'divide-y', 'divide-gray-200', 'text-sm'); 
+                
+                table.innerHTML = `
+                    <thead class="bg-gray-50 sticky top-0 z-10 border-b-2 border-gray-200">
+                        <tr>
+                            <th class="px-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                            <th class="px-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">氏名</th>
+                            <th class="px-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">権限</th>
+                            <th class="px-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">最終ログイン</th>
+                            <th class="px-1 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        ${data.map((item, index) => {
+                            const roleColor = item.role === '管理者' ? 'text-red-600' : 'text-gray-700';
+
+                            return `
+                                <tr class="${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50 transition duration-150">
+                                    <td class="px-1 whitespace-nowrap text-gray-900 font-mono">${item.id}</td>
+                                    <td class="px-1 whitespace-nowrap text-gray-900">${item.name}</td>
+                                    <td class="px-1 whitespace-nowrap ${roleColor} font-semibold">${item.role}</td>
+                                    <td class="px-1 whitespace-nowrap text-gray-500">${item.lastLogin}</td>
+                                    <td class="px-1 whitespace-nowrap text-right">
+                                        <button class="text-indigo-600 hover:text-indigo-900 mx-1 text-base" title="編集">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-900 mx-1 text-base" title="削除">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                `;
+
+                userTableContainer.appendChild(table);
+            }
+
+            // 4. イベントリスナーの設定
+            
+            // フィルター表示/非表示の切り替え
+            filterToggleButton.addEventListener('click', () => {
+                filterPanel.classList.toggle('hidden');
+                
+                // ボタンのテキストとアイコンを更新
+                const isHidden = filterPanel.classList.contains('hidden');
+                filterToggleButton.innerHTML = isHidden
+                    ? '<i class="fas fa-search mr-2"></i> 検索フィルターを表示'
+                    : '<i class="fas fa-times mr-2"></i> 検索フィルターを非表示';
+            });
+            
+            // 検索ボタンクリックでフィルターを実行
+            searchButton.addEventListener('click', filterUsers);
+
+            // ユーザー追加ボタン（ダミー）
+            addUserButton.addEventListener('click', () => {
+                alert('ユーザー追加画面へ遷移します (機能は未実装)');
+            });
+
+            // ホームに戻るボタン
+            backToHomeButton.addEventListener('click', () => {
+                if (typeof electronAPI !== 'undefined' && electronAPI.navigateTo) {
+                    electronAPI.navigateTo('index');
+                }else{
+                    location.href = 'index.html';
+                }
+            });
+
+
+            // 初期処理
+            filterUsers(); // 初期表示（全てのデータを表示）
+        });
+    </script>
 </body>
 </html>
