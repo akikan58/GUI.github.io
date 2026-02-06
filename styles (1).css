@@ -1,7 +1,12 @@
 /* login.html 専用スタイル */
 
-/* InterフォントをGoogle Fontsからインポート */
-
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    /* ... (省略) */
+    src: url('./fonts/fonts.woff2') format('woff2');
+}
 body {
     font-family: 'Inter', sans-serif;
     display: flex;

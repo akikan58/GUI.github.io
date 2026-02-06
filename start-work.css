@@ -73,20 +73,34 @@ body {
 /* 2.2. レスポンシブ調整: タブレット横向き */
 @media screen and (min-width: 768px) and (orientation: landscape) {
     .main-grid-container {
-        grid-template-columns: 3fr 1fr; 
-        grid-template-rows: 1fr 6vh; 
-        gap: 10px; 
-        margin: 5px 10px;
-        height: calc(100dvh - 60px); 
-        min-height: calc(100dvh - 60px);
+        /* 画面端の余白を最小化し、高さを100%以内に固定 */
+        height: 110dvh; 
+        min-height: auto;
+        display: grid;
+        grid-template-columns: 1.4fr 1fr; 
+        grid-template-rows: 1fr 45px; /* 下部ボタンの高さを固定して確保 */
+        gap: 8px; 
+        margin: 5px;
+        overflow: hidden;
     }
     
     .work-area { 
-        grid-column: 1 / 2; grid-row: 1 / 2; 
+        grid-column: 1 / 2; 
+        grid-row: 1 / 2; 
+        padding: 10px; /* 余白を半分に */
+        gap: 5px; /* 要素間の隙間を最小に */
+        font-size: 14px; /* 全体的に文字を小さく */
     }
+
     .queue-management-area { 
-        grid-column: 2 / 3; grid-row: 1 / 2;
+        grid-column: 2 / 3; 
+        grid-row: 1 / 2;
+        padding: 10px;
+        gap: 8px;
+        max-height: 100%;
+        overflow: hidden;
     }
+
     .back-to-home-button-container {
         grid-column: 1 / 3; 
         grid-row: 2 / 3; 
@@ -94,40 +108,112 @@ body {
         justify-content: center;
         align-items: center;
     }
+
+    /* 入力エリアの調整 */
+    .input-group { 
+        margin-bottom: 5px; 
+        gap: 5px;
+        padding-right: 0;
+    }
+    
+    .input-field {
+        padding: 6px; /* 入力欄を薄く */
+        font-size: 0.9rem;
+    }
+
+    .input-label {
+        font-size: 0.9rem;
+        margin-bottom: 2px;
+    }
+
+    /* 追加ボタンをスリムに */
     .add-to-queue-button {
-        background-color: #22c55e;
-        color: white;
-        padding: 15px 10px;
-        border-radius: 8px;
-        font-size: 20;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        width: 100%;
-        height: 50px;
-        margin-top: 10px;
-        border: 1px solid #e2e8f0;
-    }
-    .add-to-queue-button:hover { 
-        background-color: #16a34a; 
-    }
-    .estimated-time {
-        font-size: 18px;
-        font-weight: bold;
-        padding: 0%;
-        color: #333;
+        padding: 0;
+        font-size: 16px;
+        height: 38px;
         margin-top: 5px;
-        text-align: center;
     }
+
+    /* 待ち時間の表示をコンパクトに */
+    .estimated-time {
+        font-size: 14px;
+        margin-top: 2px;
+    }
+
+    /* キューリストのアイテムも高さを抑える */
+    .queue-item {
+        padding: 8px 12px;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+    }
+
     .queue-list {
         flex-grow: 1;
         overflow-y: auto; 
-        height: 0; 
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 10px;
-        background-color: #f8fafc;
-        margin-top: 5x;
+        height: 0; /* flex-growで自動計算 */
+        padding: 5px;
+    }
+
+    /* ホームに戻るボタンを横長・低めに */
+    .back-button {
+        padding: 5px 40px;
+        font-size: 1rem;
+        height: 35px;
+        width: auto;
+        min-width: 200px;
+    }
+}@media screen and (min-width: 768px) and (orientation: landscape) {
+    body { overflow: hidden; }
+
+    .main-grid-container {
+        height: 95dvh; 
+        grid-template-columns: 1fr 1fr; /* 左右均等に */
+        grid-template-rows: 1fr; /* 1行のみ */
+        gap: 10px; 
+        margin: 10px;
+    }
+
+    /* ホームに戻るボタンコンテナを完全に消去 */
+    .back-to-home-button-container {
+        display: none !important;
+    }
+
+    .work-area, .queue-management-area {
+        height: 100%;
+        padding: 15px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 右側エリアのボタン群をコンパクトに */
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 8px; /* ボタン同士の隙間 */
+        margin-top: 10px;
+    }
+
+    .interactive-button.add-btn,
+    .interactive-button.start-btn {
+        width: 100% !important;
+        max-width: none !important;
+        height: 60px !important; /* 80pxから短縮 */
+        margin: 0 !important; /* HTMLの巨大なmarginをリセット */
+        font-size: 22px !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .add-btn { background-color: #4a90e2 !important; }
+    .start-btn { background-color: #ef4444 !important; }
+
+    /* 入力欄のサイズ調整 */
+    #box-count-input {
+        padding: 10px !important;
+        font-size: 1.5rem !important;
     }
 }
 

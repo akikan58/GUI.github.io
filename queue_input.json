@@ -1,0 +1,13 @@
+[
+    {
+        "id": 2,
+        "name": "N式段ボール",
+        "boxCount": 1,
+        "count": 1,
+        "estimatedTime": 90,
+        "remainingTime": 90,
+        "notify": false,
+        "completed": false,
+        "startedAt": null
+    }
+]

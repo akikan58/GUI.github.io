@@ -2,17 +2,18 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>ホーム</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="all.min.css"> 
     <link rel="stylesheet" href="inter-local.css">
     <link rel="stylesheet" href="index.css">
+
+    <link rel="stylesheet" href="/GUIver4/assets/tailwind/tailwind.css">
+    <link rel="stylesheet" href="/GUIver4/assets/fontawesome/css/all.min.css">
 </head>
 <body>
     <div class="grid-container">
         <div class="grid-item bulletin-board">
-            <h2 class="board-title" data-i18n="board_title">お知らせ / メモ帳</h2>
+            <h2 class="board-title" data-i18n="board_title">お知らせ</h2>
             <div class="board-input-area">
                 <textarea id="memoinpt" data-i18n-placeholder="memo_input_placeholder" placeholder="ここにお知らせやメモを入力..."></textarea>
                 <button id="post-button" class="post-button" data-i18n="post_button">投稿</button>
@@ -20,48 +21,10 @@
             <div id="memo-list" class="board-list"></div>
         </div>
         
-        <button id="keyboard-toggle-button" class="keyboard-toggle-button fixed bottom-4 right-4 z-10">
-            <i class="fas fa-keyboard"></i>
-        </button>
-        
-        <div id="virtual-keyboard-container" class="virtual-keyboard-container hidden">
-            <div class="virtual-keyboard">
-                <div class="keyboard-row">
-                    <button class="key">1</button><button class="key">2</button><button class="key">3</button><button class="key">4</button><button class="key">5</button><button class="key">6</button><button class="key">7</button><button class="key">8</button><button class="key">9</button><button class="key">0</button>
-                </div>
-                <div class="keyboard-row">
-                    <button class="key">q</button><button class="key">w</button><button class="key">e</button><button class="key">r</button><button class="key">t</button><button class="key">y</button><button class="key">u</button><button class="key">i</button><button class="key">o</button><button class="key">p</button>
-                </div>
-                <div class="keyboard-row">
-                    <button class="key">a</button><button class="key">s</button><button class="key">d</button><button class="key">f</button><button class="key">g</button><button class="key">h</button><button class="key">j</button><button class="key">k</button><button class="key">l</button>
-                </div>
-                <div class="keyboard-row">
-                    <button class="key shift">Shift</button><button class="key">z</button><button class="key">x</button><button class="key">c</button><button class="key">v</button><button class="key">b</button><button class="key">n</button><button class="key">m</button><button class="key backspace"><i class="fas fa-backspace"></i></button>
-                </div>
-                <div class="keyboard-row">
-                    <button class="key lang-toggle" id="lang-toggle-key">あ/A</button><button class="key space">Space</button><button class="key clear">Clear</button><button class="key enter">Enter</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grid-item empty-space" id="status-display-area">
-            <div id="remaining-work-time-area" class="p-4 bg-white rounded-lg shadow-lg">
-                <h2 class="text-2xl font-semibold text-gray-700 mb-3 border-b pb-2">現在の作業状況</h2>
-                <div class="flex items-center text-xl">
-                    <i class="fas fa-hourglass-half text-red-500 mr-3"></i>
-                    <span class="font-medium text-gray-600">残り時間:</span>
-                    <span id="current-task-time" class="ml-2 text-red-600 font-bold">--:--:--</span>
-                </div>
-                <p class="text-sm text-gray-500 mt-1">※ キューの先頭にある作業の残り時間です。</p>
-            </div>
-        </div>
-        
+
         <button id="start-work-button" class="grid-item interactive-button start-work-button">製函開始</button>
         <button id="back-to-login-button" class="grid-item interactive-button power-button">ログアウト</button>
         <button id="admin-menu-button" class="grid-item interactive-button admin-menu-button">管理者メニュー</button>
-        <button id="setting-button" class="grid-item interactive-button setting-button">
-            <i class="fas fa-cog"></i> <span>設定</span>
-        </button>
         <button id="work-history-button" class="grid-item interactive-button work-history-button">作業履歴</button>
     </div>
 
@@ -91,12 +54,10 @@
             window.location.href = 'admin-menu.html';
         });
     
-        document.getElementById('setting-button').addEventListener('click', function() {
-            window.location.href = 'settings.html';
-        });
     
         document.getElementById('work-history-button').addEventListener('click', function() {
             window.location.href = 'work-history.html';
         });
     </script>
+    <script src="index.js"></script>
 </html>

@@ -137,3 +137,15 @@ body {
 .back-button::before {
     content: none; 
 }
+#history-table-container {
+    height: 100%;
+    width: 100%;
+}
+
+#history-table-container table thead th {
+    position: sticky;
+    top: 0;
+    background: #f8fafc; /* 背景を不透明にして重なりを防止 */
+    z-index: 10;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
