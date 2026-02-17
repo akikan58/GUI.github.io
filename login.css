@@ -16,7 +16,7 @@ body {
 /* ログインコンテナ */
 .login-container {
     background-color: #ffffff;
-    padding: 40px;
+    padding: 20px;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     max-width: 800px; /* ログインフォームの最大幅を広げる */
@@ -164,3 +164,4 @@ body {
 .power-off-button i {
     font-size: 1.8rem;
 }
+
