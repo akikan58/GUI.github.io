@@ -11,16 +11,17 @@ body {
     padding: 0px;
     box-sizing: border-box;
     position: relative;
+    overflow: hidden;
 }
 
 /* ログインコンテナ */
 .login-container {
     background-color: #ffffff;
-    padding: 20px;
-    border-radius: 15px;
+    padding: 30px;
+    border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    max-width: 800px; /* ログインフォームの最大幅を広げる */
-    width: 90%;
+    max-width: 400px; /* ログインフォームの最大幅を広げる */
+    width: 85%;
     text-align: center;
 }
 
@@ -164,4 +165,5 @@ body {
 .power-off-button i {
     font-size: 1.8rem;
 }
+
 
