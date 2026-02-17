@@ -1,84 +1,84 @@
-/* login.css */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* スクロール禁止 */
+    position: fixed; /* タブレットでの引っ張り更新なども防止 */
+}
 
 body {
-    font-family: 'Inter', sans-serif;
-    /* 背景を少し暗めにしてコンテナを浮かせる */
-    background: linear-gradient(135deg, #d1d9e0, #b8c6db);
-    margin: 0;
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
 }
 
 .login-container {
     background-color: #ffffff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    /* 縦横どちらも小さく：幅を300px程度に制限 */
-    width: 300px;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    width: 280px; /* さらに少しコンパクトに */
     text-align: center;
-}
-
-.input-group {
-    margin-bottom: 15px; /* 余白を詰める */
-    text-align: left;
 }
 
 .input-label {
     display: block;
-    margin-bottom: 5px;
-    font-size: 0.85rem; /* 小さく */
-    color: #555;
+    margin-bottom: 4px;
+    font-size: 0.75rem;
+    color: #888;
     font-weight: bold;
+    text-align: left;
 }
 
 .input-field {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem; /* 入力文字も標準サイズに */
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 0.9rem;
     box-sizing: border-box;
-    transition: border-color 0.2s;
+    background-color: #f8fafc;
+    margin-bottom: 12px;
 }
 
-/* ログインボタンを強調 */
+/* ログインボタンの強調：見出しと差をつける */
 .login-submit-button {
     width: 100%;
-    background-color: #2563eb; /* 鮮やかな青 */
+    background: #1a1a1a; /* 落ち着いた黒、または鮮やかな青 #2563eb */
     color: white;
     padding: 12px;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-weight: bold;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 800; /* 太字で強調 */
+    letter-spacing: 0.1rem;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
-    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
     margin-top: 10px;
 }
 
 .login-submit-button:active {
-    background-color: #1d4ed8;
-    transform: scale(0.98);
+    transform: scale(0.96);
+    background: #000;
 }
 
-/* 電源ボタンを邪魔にならないサイズに固定 */
+/* 終了ボタン（電源）のデザイン変更 */
 .power-off-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #4b5563; /* グレーにして目立たせない */
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    cursor: pointer;
+    background: transparent;
+    color: #94a3b8; /* 目立たないグレー */
+    border: 1px solid #cbd5e1;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 10px;
     display: flex;
     align-items: center;
-    gap: 6px;
-    opacity: 0.8;
+    gap: 4px;
+    cursor: pointer;
 }
