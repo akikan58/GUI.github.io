@@ -8,25 +8,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="flex items-center justify-center min-h-screen bg-gray-100">
+<body class="flex items-center justify-center min-h-screen">
     <div class="login-container">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">ログイン</h1>
-        <div id="alert-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">ログイン</h1>
+        
+        <div id="alert-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 text-sm" role="alert">
             <strong class="font-bold">エラー:</strong>
             <span class="block sm:inline" id="alert-text"></span>
         </div>
+
         <div class="input-group">
-            <label for="username" class="input-label">ID:</label>
+            <label for="username" class="input-label">ID</label>
             <input type="text" id="username" class="input-field" placeholder="IDを入力" autofocus>
         </div>
+
         <div class="input-group">
-            <label for="password" class="input-label">パスワード:</label>
+            <label for="password" class="input-label">パスワード</label>
             <input type="password" id="password" class="input-field" placeholder="パスワードを入力">
         </div>
 
+        <button onclick="login()" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-blue-700 transition mb-4">
+            ログイン
+        </button>
+    </div>
 
-    <button id="power-off-button" class="power-off-button mt-6">
-        <i class="fas fa-power-off"></i> アプリケーション終了
+    <button id="power-off-button" class="power-off-button">
+        <i class="fas fa-power-off"></i> 終了
     </button>
 
     <!-- 省略: head, bodyタグはそのまま -->
@@ -124,3 +131,4 @@
     </script>
 </body>
 </html>
+
