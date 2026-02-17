@@ -1,70 +1,84 @@
-/* login.css - ログイン画面専用スタイル */
+/* login.css */
 
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #e0f2f7, #c6e2e9);
+    /* 背景を少し暗めにしてコンテナを浮かせる */
+    background: linear-gradient(135deg, #d1d9e0, #b8c6db);
     margin: 0;
-    overflow: hidden; /* スクロールを禁止してアプリ感を出す */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 .login-container {
     background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    /* 幅をタブレットで見やすいサイズに制限 */
-    max-width: 400px; 
-    width: 85%;
-    z-index: 1;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* 縦横どちらも小さく：幅を300px程度に制限 */
+    width: 300px;
+    text-align: center;
 }
 
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* 余白を詰める */
     text-align: left;
 }
 
 .input-label {
     display: block;
-    margin-bottom: 6px;
-    font-size: 1rem; /* 1.2remから縮小 */
-    color: #444;
-    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 0.85rem; /* 小さく */
+    color: #555;
+    font-weight: bold;
 }
 
 .input-field {
     width: 100%;
-    padding: 12px; /* 15pxから縮小 */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem; /* 1.5remから縮小（これがデカさの主因） */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem; /* 入力文字も標準サイズに */
     box-sizing: border-box;
-    transition: all 0.2s;
+    transition: border-color 0.2s;
 }
 
-.input-field:focus {
-    border-color: #3b82f6;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+/* ログインボタンを強調 */
+.login-submit-button {
+    width: 100%;
+    background-color: #2563eb; /* 鮮やかな青 */
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 10px;
 }
 
-/* 電源ボタンをタブレットでも邪魔にならないサイズに */
+.login-submit-button:active {
+    background-color: #1d4ed8;
+    transform: scale(0.98);
+}
+
+/* 電源ボタンを邪魔にならないサイズに固定 */
 .power-off-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #ef4444;
+    background-color: #4b5563; /* グレーにして目立たせない */
     color: white;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border: none;
-    border-radius: 50px; /* 丸みを持たせてモダンに */
-    font-size: 0.9rem;
-    font-weight: bold;
+    border-radius: 20px;
+    font-size: 0.75rem;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    gap: 6px;
+    opacity: 0.8;
 }
-
-
-
